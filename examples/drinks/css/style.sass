@@ -1,0 +1,50 @@
+$background: #cdcdcd
+$highlight: orange
+$width: 640px
+$grid: 10px
+$padding: $grid
+$fancyFont: 'Zapfino', sans-serif
+$mainFont: 'Menlo', 'Consolas', monospace
+
+html
+  min-height: 100%
+  position: relative
+
+*
+  box-sizing: border-box
+  font-family: $mainFont
+
+h1
+  text-align: center
+  font-family: $fancyFont
+
+.content
+  position: absolute
+  top: 0
+  bottom: 0
+  width: $width
+  margin: 0 auto
+  padding: $padding
+  background: $background
+
+button, .button
+  width: 20 * $grid
+  height: 5 * $grid
+  line-height: 5 * $grid
+  margin: $grid
+  padding: 0
+  border-radius: 0.5 * $grid
+  border: 1px solid adjust-color($background, $lightness: -50%)
+  font-size: 1.5em
+  background: adjust-color($background, $lightness: 50%)
+  box-shadow: 2px 2px 5px black
+  text-align: center
+  -webkit-user-select: none
+  user-select: none
+  transition: all 0.2s
+  &:hover,&.selected
+    box-shadow: 2px 2px 5px -3px black
+  &:active
+    background: adjust-color($highlight, $lightness: 30%)
+  &.selected
+    background: $highlight

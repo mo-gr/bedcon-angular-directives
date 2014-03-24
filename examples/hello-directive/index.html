@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS Hello World Directive</title>
+</head>
+<body ng-app="DeadSimpleDirectiveApp">
+    <div my-own-directive="1">i can haz directive</div>
+    <div data-my-own-directive="2">me too</div>
+    <div x-my-own-directive="3">and me?</div>
+    <script src="./angular.js"></script>
+    <script>
+        var app = angular.module('DeadSimpleDirectiveApp', []);
+        app.directive('myOwnDirective', function () {
+            console.log('myOwnDirective init');
+            return function (scope, element, attrs) {
+                console.log('I am linked with', arguments);
+                console.log(attrs.myOwnDirective);
+            }
+        });
+        app.directive('div', function () {
+            return {
+                restrict: 'E',
+                link: function () {
+                    console.log('not sure if brilliant or terrible idea');
+                }
+            };
+        });
+        app.directive('div', function () {
+            return {
+                restrict: 'E',
+                link: function () {
+                    console.log('Highlander?');
+                }
+            };
+        });
+    </script>
+</body>
+</html>
