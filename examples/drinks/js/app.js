@@ -19,6 +19,7 @@
             link: function (scope, element, attrs) {
                 var sound = new Howl({
                     urls: [attrs.moNoise]
+
                 });
                 element.on('click', function () {sound.play();});
             }
