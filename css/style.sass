@@ -1,0 +1,32 @@
+footer
+  position: fixed
+  bottom: 10px
+  width: 100%
+  text-align: center
+  z-index: 1000
+  &, & a
+    color: white
+    font-size: 18px
+    text-decoration: none
+    font-family: "Montserrat", Impact, sans-serif
+    font-weight: light
+    opacity: .8
+
+.reveal pre code
+  font-size: 120%
+  border-radius: 7px
+
+ul,ol
+  width: 70%
+
+.absolute
+  position: absolute
+
+@mixin text-shadow
+  text-shadow: 2px 2px 5px #131313
+.text-shadow
+  @include text-shadow
+
+.reveal .slides
+  h1, h2, h3
+    @include text-shadow

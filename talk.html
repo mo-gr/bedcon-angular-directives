@@ -1,0 +1,210 @@
+<h1>AngularJS Directive Crash Course</h1>
+
+<p>Hallo, ich bin Moritz Grauel. Schön, dass ihr alle hier seid. Ich werde euch heute einen Crash Course zum schreiben von eigenen Direktiven in AngularJS geben. Hoffentlich eher nicht so einen Crash Course</p>
+
+<p><strong>Bild von einem Unfall (Fahrschule?)</strong></p>
+
+<p>Sondern eher so einen Crash Course</p>
+
+<p><strong>positiven Bild eines Crash Course</strong></p>
+
+<p>Aber eins nach dem anderen. Zu erst möchte ich mich ganz kurz vorstellen.</p>
+
+<p><strong>slide mit tagline</strong></p>
+
+<p>Ich bin Moritz. Ich bin freiberuflicher Software Entwickler hier in Berlin mit einem starken Fokus Java-, oder sagen wir mal JVM-basierten Web Anwendungen. Normalerweise bringe ich jetzt an dieser Stelle immer gerne den Witz, dass ich ja vermutlich der einzige echte Berliner hier im Raum bin. Aber die letzten male ist das irgendwie immer nach hinten losgegangen. Kommen die Berliner wieder zurück in ihre Heimat? Na egal&hellip;</p>
+
+<p>Jedenfalls verdiene ich jetzt seit über 7 Jahren meinen Lebensunterhalt mit Software. Angefangen habe ich mal als Java Backend Entwickler. Irgendwann habe ich dann auch mal eine Zeit lang iOS Apps gebaut und seit ein paar Jahren drifte ich immer mehr in Richtung Webfrontend und fühle mich da eigentlich auch sehr wohl. Es ist ein spannendes, sich schnell verändern Feld, in dem gerade viel passiert. Ich finde es insbesondere spannend, wie so langsam auch im Frontend funktionale Konzepte immer mehr Einzug halten. Aber das ist eher ein Thema für einen anderen Talk&hellip; Also genug zu mir&hellip; Kommen wir zu&hellip;</p>
+
+<p><strong>slide mit AngularJS logo</strong></p>
+
+<p>&hellip;AngularJS. Ich denke mal, die meisten hier im Raum haben zumindest schon mal von AngularJS gehört.
+AngularJS nennt sich selbst Super Heroic JavaScript Model View Whatever Framework. Was genau soll das bedeuten?
+Im wesentlichen ist AngularJS ein weiteres ModelViewController Framework um client seitiges JavaScript besser zu strukturieren.   Also im wesentlichen Vergleichbar mit Backbone, Ember.js, knockout und wie sie nicht alle heißen.
+Inzwischen könnte man sogar fast anfangen, AngularJS als abgehangene Software zu bezeichnen. Immerhin hatte Angular seinen ersten öffentlichen release 2009, also for 5 Jahren. Wenn man sich diverse MVC Frameworks anschaut - nicht nur im Web - wird man feststellen, dass sich eigentlich alle recht einig sind, was ein Model ist und welche Aufgaben es hat. Auch bei der View gibt es mal von Backbone abgesehen relativ wenig Diskussion über die Aufgabe. Oh man, ich sage lieber gar nicht, wie lange ich gebraucht habe um zu Verstehen, dass das, was Backbone eine View nennt in meinem kleinen Welt Controller heißt. Und da sind wir auch schon beim Kern der Diskussion. Über die genaue Form und aufgabe des Controllers gibt es erstaunlich vielfältige Diskussionen. Model View Controller, Model View Presenter, Model View View-Model und so weiter. Um diesen Diskussionen zumindest ein wenig aus dem weg zu gehen ist nennt sich Angular schlicht Model-View-Whatever Framework.
+Noch ein paar ganz kurze Zahlen und Fakten zu AngularJS.</p>
+
+<p><strong>slide mit Angular Fakten</strong></p>
+
+<p>AngularJS hat das Licht der Welt als eines der berühmten 20% Projekte bei Google erblickt. Inzwischen ist es aber ein gesundes, aktives Open Source Projekt mit über 400 Kontributoren auf github. Aktuell ist die Version 1.2.15 auf die sich mein Vortrag auf bezieht, aber die Community hat gerade angefangen, sich öffentlich über die 2.0 Roadmap zu unterhalten. Ach ja - weil das erstaunlich oft als Frage kommt: AngularJS steht unter der MIT Lizenz.</p>
+
+<p><strong>slide mit core features</strong>
+Was macht AngularJS denn nun so besonders? Was hebt es von der Masse ab? In meinen Augen hat AngularJS vor allem vier Killer Features, die es besonders machen
+1. Sehr starker Fokus auf Modularität &amp; Testbarkeit
+2. Dependency Injection
+3. 2 way data binding
+4. Templating System</p>
+
+<p>In all diesen Bereichen hat AngualarJS sehr interessante und oft auch innovative Ansätze. Doch innovative Ansätze haben in der Regel auch ein Problem - die Lernschwelle.
+<strong>slide mit lernkurven</strong>
+<em>kurz zu lernkurven schwafeln</em>
+<strong>slide mit Angular kurve</strong></p>
+
+<p>Am Anfang kann AngularJS ein wenig&hellip; na sagen wir mal eigen wirken. Insbesondere das Data Binding und die Dependency Injection haben auf den ersten Blick etwas magisches an sich. All das erschwert einem vielleicht zu Beginn den Einstieg. Doch ich kann euch versichern, es lohnt sich, sich dieser Hürde zu stellen!
+Wenn man erst ein mal die grundlegenden Konzepte verstanden und verinnerlicht hat, dann kann man mit AngularJS in sehr kurzer Zeit, beeindruckendes umsetzen - und die meiste Zeit hat man dabei eigentlich auch immer Spaß.</p>
+
+<p>Ich vermute, die meisten hier im Raum haben sich schon mehr oder weniger mit AngularJS befasst, aber ich will trotzdem mit einem kurzen Beispiel einsteigen und einfach mal zeigen, wie AngularJS  aussieht. Und wie viel man in Angular mit sehr wenig code erreichen kann.</p>
+
+<p><strong>->IDE, hello world example mit API call. etwa 5 min</strong>
+<em>Fokus auf DI, zuletzt erklären, was hier alles direktiven sind</em></p>
+
+<p><strong>slide direktive</strong>
+Ok, wir haben gerade ein paar direktiven gesehen. Direktiven sind irgendwie der magische Feenstaub, an angulars templating System.
+Direktiven. Irgendwie ein schwammiger Begriff. Mir war am Anfang nicht so ganz klar, was ich mir genau unter eine Direktive vorzustellen habe. Aber eigentlich ist das ganz einfach. Eine Direktive ist nicht viel mehr als ein marker im DOM, mit dem ich Angular sage, dass es an dieser Stelle im DOM code ausführen muss.</p>
+
+<p><strong>Direktiven sind marker im DOM</strong></p>
+
+<p>Wir haben jetzt gerade schon ein paar Direktiven gesehen, die AngularJS mitbringt. Aber Angular ermöglicht es natürlich auch, eigene solche Direktiven, also eigene Attribute und Tags zu erfinden mit denen ich beliebige Funktionalität im DOM verankern kann. Dadurch ermöglicht AngularJS einen sehr ausdrucksstarken, deklarativen Programmierstil.
+Eigene Direktiven sind ein ganz wichtiges Puzzlestück um elegante, wartbare Anwendungen in AngularJS zu schreiben.</p>
+
+<p>Leider sehen viele Entwickler, die neu zu AngularJS kommen, Direktiven oft als fortgeschritteneres Feature an und fangen erst viel zu spät an, sich damit zu befassen.
+Mein Ziel für heute ist es, euch zu zeigen, dass Direktiven, insbesondere selbsgeschriebene, viel weniger Magie beinhalten, als man vielleicht vermuten mag.</p>
+
+<p>Ich denke mal, alle hier im Raum haben schon mal mit jQuery gearbeitet. Direktiven invertieren quasi das Model von jQuery. Während man bei jQuery in der Regel anhand von irgendeinem mehr oder weniger komplexen Selektor nach Elementen im DOM fischt, um diesen Leben ein zu hauchen, markiert man bei AngualarJS die Elemente im DOM mit einer Direktive.
+<strong>slide jQuery vs direktiven</strong>
+Ich möchte gar nicht wissen, wie viel Zeit ich schon damit verbracht habe in riesigen jQuery Projekten nach der richtigen Stelle zu Suchen die dafür sorgt, das dieses ein div sich beim click merkwürdig verhält nur um festzustellen, dass der entsprechende Selektor dazu dann irgendwie so aussieht
+<strong>$(&lsquo;#content form > ul ~ input + div&rsquo;).on(&lsquo;click&rsquo;, fmlHandler);</strong>
+Das ganze hätte in AngularJS hoffentlich eher so ausgesehen
+<strong><div ng-click="fml()"></strong>
+Die Zuordnung von Funktionalität zu DOM Elementen passiert bei AngularJS in meinen Augen expliziter und vor allem immer im Template.</p>
+
+<p>Ich denke, am besten ist es, ich zeige euch mal, was man tun muss um eine eigene Direktive in AngularJS zu schreiben.</p>
+
+<p><strong>->IDE, hello-direktive example, zunächst Kurzform, dann langform</strong></p>
+
+<p><strong>slide zur linkfunktion</strong>
+Eine Direktiven kann man sich im Kern also erstmal als eine JavaScript Funktion vorstellen, die den aktuellen scope, das entsprechende DOM Element und dessen Attribute als Parameter übergeben bekommt. Ist doch gar nicht so kompliziert, oder? Ein bisschen komplizierter wird es nachher schon noch, aber bevor wir richtig loslegen will ich mal kurz erklären, was alles in eigene direktiven gehört und was man eher an anderer Stelle im Projekt unterbringen sollte.</p>
+
+<p><strong>slide wann direktiven?</strong></p>
+
+<p>Üblicherweise versucht AngualarJS die böse Welt des Browsers so weit wie möglich aus der Anwendung und ihrer Logik fern zu halten. Denn das, was in JavaScript oft den größten Schmerz bereit ist die DOM Interaktion. Aber ganz kommt man auch in AngularJS nicht um den DOM herum. Und in 90% aller fälle sollten DOM Interaktionen immer in Direktiven verpackt werden. Also Faustregel Nummer 1: Direkte DOM Interaktionen gehören in eigene Direktiven.
+<strong>advance slide: DOM</strong>
+Der zweite große Einsatzpunkt von Direktiven ist die Integration von 3rd Party Bibliotheken. Wenn man irgendwelche spannenden JavaScript Bibliotheken einbindet, insbesondere solche, die irgendwie mit dem DOM interagieren ist es fast immer die beste Wahl eine oder mehrere Direktiven zu bauen, die die Bibliothek abkapseln. Dazu werden wir später auch noch ein Beispiel haben.
+<strong>advance slide: 3rd party</strong>
+Der nächste Große Einsatzzweck von direktiven sind UI Widgets. Irgendwie wiederverwendbare UI Komponenten, wie etwa drop down boxes, alerts, pagination footer. Solche Dinge gehören in eigene Direktiven.
+<strong>advance slides: UI widgets</strong>
+Und zu guter letzt kann man direktiven auch einfach als mittel des templating verwenden.
+<strong>advance slides: templates</strong>
+Man fasst also komplexe DOM Konstrukte einfach in einer aussagekräftigen Direktive zusammen
+<strong>beispiel slide</strong>
+So könnte das zum Beispiel aussehen.</p>
+
+<p><strong>slide zurück</strong>
+Ein schönes Beispiel, das all diese dinge kombiniert, also eine DOM-lastige 3rd party widget Bibliothek bereit stellt ist übrigens angular-ui
+<strong>slide angular-ui</strong>
+Angular-ui ist ein Projekt, das die UI Widgets aus dem bekannten Twitter Bootstrap in direktiven verpackt und sie für angularjs sehr pragmatisch nutzbar macht. Der source code von angular-ui ist bestens geeignet um mehr über direktiven zu lernen und sich anzuschauen, wie andere Leute, Schwierigkeiten lösen, die beim entwickeln von wiederverwendbaren direktiven entstehen.</p>
+
+<p>Und was sollte man besser nicht in direktiven verpacken?
+Insbesondere sollte man sich davor hüten zu viel Logik in direktiven zu haben.
+<strong>slide wenig businesslogik</strong>
+Direktiven interagieren überlichweise mit dem DOM. Das gibt ihnen schon genug Komplexität. Businesslogik, sofern sie Clientseitig notwendig ist, sollte nach Möglichkeit eher nicht in direktiven landen. Die ist in Services deutlich besser aufgehoben. So sollte eine Direktiven zum Beispiel selber keine AJAX calls machen.</p>
+
+<p>Also alles, was nicht mit dem DOM oder anderen JavaScript Bibliotheken interagiert gehört weiterhin eher in Services und Factories.</p>
+
+<p>Ok. Nach dem wir nun wissen, was alles in eine gute Direktive gehört, mal ein etwas formalerer Blick auf die Deklaration von Direktiven.</p>
+
+<p><strong>slide: declaring directives</strong></p>
+
+<p>Eine Direktive wird immer im Kontext eines modules deklariert. In kleinen Projekten ist überlicherweise einfach die Angular App. Aber in größeren und komplexeren Anwendungen kann es durchaus sinn machen, direktiven in ein eigenes Modul aus zu lagern. Die directive-Funktion erwartet zwei parameter. Den normalisierten String Namen der Direktive und die Funktion, die die Direktive deklariert. Diese Funktion nimmt am Dependecy Injection system von Angular teil, hier können also Abhängigkeiten injiziert werden und es kann auch die Array Syntax verwendet werden. Diese factory Funktion muss üblicherweise ein Objekt zurück geben, welches das verhalten der direktiven deklariert. Bei einfachen direktvine, wie vorhin in unserem Beispiel kann man auch einfach nur die Link Funktion zurück geben.</p>
+
+<p>Ich habe den Namen der Direktive gerade &ldquo;normalisierten Namen&rdquo; genannt. Das bedeutet, der Name wird in CamelCase geschrieben. Wenn Angulars template compiler eine Direktive vorfindet, wird zunächst ihr Name normalisiert
+<strong>slide normalisierung</strong>
+Das ermöglicht es bei Bedarf, W3C oder XHTML konforme templates zu schreiben. x-, oder data- Präfixe werden von Attributen abgeschnitten und alle Vorkommen von :, - und _ werden zu camelCase umgewandelt.</p>
+
+<p>Die Normalisierung ermöglicht es einem auch, seine eigenen direktiven mit einem Prefix zu versehen. Spätestens, wenn  man in Erwägung zieht, direktiven in mehreren Projekten zu verwenden sollte man das auch tun. Aber es ist natürlich eine ganz schlechte Idee, Direktiven mit ng- zu Präfixen. Selbst wenn es jetzt noch keine Kollisionen kommt kann das natürlich in der Zukunft immer hinzukommen.</p>
+
+<p>Attribute und Elemente sind übrigens nicht die einzigen möglichen Formen von Direktiven. Es sind nur die gebräuchlichsten. Es gibt noch zwei weitere
+<strong>slide formen</strong>
+Direktiven können auch CSS Klassen sein. Damit nähern wir uns dem Marker-Model von jQuery schon recht deutlich an. Ich würde aber niemandem raten, diese From von direktiven zu verwenden. Der einzige Grund, den ich sehe ist, wenn man Funktionalität an Markup hängen möchte, dass man nicht selbst kontrolliert. Aber in diesem Fall ist AngularJS vielleicht sowieso nicht die allerbeste Wahl. Und die letzte Form von Direktiven ist noch seltener. Direktiven können auch die Form von HTML Kommentaren annehmen. Das würde ich als geradezu böse bezeichnen. Kommentare sollten keine Funkion haben. Der einzige mir bekannte Einsatzzweck hierfür ist, wenn man beispielsweise in Tabellen valides markup erzeugen möchte und aus irgendwelchen gründen keinen Attribute verwenden will. Zwischen einem <tbody> und einem <tr> darf beispielsweise kein anderes Element stehen. Hier könnte man dann seinen tabellenbody als Kommentar angeben. Naja&hellip; Wer&rsquo;s braucht. Am besten ihr vergesst die letzten beiden Formen gleich wieder.</p>
+
+<p>Aber Elemente sind ganz spannend. Selbstverständlich muss man sich keine eigenen Elemente ausdenken. Man kann auch an html-konforme Elemente Funktionen hängen. So kann man Beispielsweise eine Direktiven deklarieren, die alle anchors mit einer logging Funktionalität versieht. Das würde dann in etwa so aussehen:
+<strong>->beispiel</strong>
+AngularJS macht davon übrigens regen gebrauch und sie versehen ganz viele HTML tags mit direktiven. So wird zum Beispiel bei allen Links mit leerem href der event-default unterbunden. Und auch das form-tag wird über diesen trick heftig aufgebohrt.</p>
+
+<p>Wie wir gerade schon am Beispiel gesehen haben, wird die Form der Direktive über das property &lsquo;restrict&rsquo; festgelegt.
+<strong>slide restrict</strong>
+Die möglichen Werte sind: <em>slide ablesen</em></p>
+
+<p>Wir kennen jetzt also schon zwei der Properties, die eine Direktive deklarieren. &lsquo;restrict&rsquo; und &lsquo;link&rsquo;</p>
+
+<p>Zum link property gibt es noch etwas wichtiges zu sagen
+<strong>slide link</strong>
+Die Funktion nimmt NICHT am DependencyInjection teil. Sie wird immer mit dem aktuellen scope, dem element, und den Attributen gerufen. element ist dabei schon jquery/jqlite gewrappt. Um zu symbolisieren, dass hier kein DI statt findet, verwendet man üblicherweise hier scope anstatt $scope.</p>
+
+<p>Die nächsten beiden, die wir uns anschauen werden sind &lsquo;template&rsquo; bzw. &lsquo;templateUrl&rsquo;.
+<strong>slide template</strong>
+Wie ihr euch sicher schon gedacht habt, haben all diese properties natürlich sinnvolle defaults. Wir können auch einfach ein leeres Objekt zurück geben und angular würde sich nicht beschweren. Die resultierende Direktive wäre nur nicht sehr spannend.
+template ermöglicht es uns, den dom an der Stelle, an der die Direktive vorkommt durch zu erweitern. Template ist einfach ein String, der den neuen Content beinhaltet und templateUrl ist eine URL zu einem template in angulars template cache.
+Schauen wir uns mal an, wie das aussehen würde
+<strong>->hello directive um template erweitern</strong>
+Wie wir sehen, wird das template an die Direktive angehangen. Wenn wir die Direktive lieber ersetzen wollen, können wir ein weiteres property spezifizieren.
+<strong>slide replace</strong>
+Wenn wir replace auf true setzten, dann ersetzt angular unsere Direktive mit ihrem template. Selbstverständlich können in dem template wieder weitere direktiven vorkommen. Etwaige weitere direktiven, die an unserer Direktive hängen werden dann übrigens auf das neue template übernommen
+<strong>->hello directive</strong></p>
+
+<p>So, wir kennen jetzt zwar noch lange nicht alle properties, die eine Direktive ausmachen, aber genug um uns an unsere erste halbwegs sinnvolle Direktive zu wagen. Findet ihr nicht auch, dass das Internet im allgemeinen zu wenig Geräusche macht? Das sollten wir ändern. Wie wäre es mit einer Direktive, die uns ermöglicht, einen sound zu definieren, der beim Klick auf ein Element ertönt.
+<strong>slide sound direktive</strong>
+Und damit das ganze in allen Browsern funktioniert verwenden wir dafür die Bibliothek Howler.js.
+<strong>kurz howler seite</strong></p>
+
+<p>Ich habe vorhin behauptet, Modularität und Testbarkeit seien eine, der Stärken von AngularJS. Damit ihr mir das glaubt, werden wir unsere Direktive test-driven entwickeln. Dann sehen wir auch gleich, was dafür nötig ist, eine Direktive zu Testen.</p>
+
+<p><strong>slide testing angularjs</strong>
+Um eine AngularJS Anwendung oder teile davon zu testen benötigt man neben den eigentlichen Tests im wesentlichen drei dinge. Man braucht eine assertion-bibliothek, die den boilerplate code bereit stellt. Also quasi sowas, wie JUnit in Java. Wir werden dafür jasmine verwenden. Das hat in etwa den gleichen Verbreitungsgrad in JavaScript, wie JUnit in Java.
+<strong>advance slides</strong>
+dann brauchen wir einen testrunner, der unsere Tests in einer JavaScript engine ausführt. AngularJS verwendet für seine tests karma, und das werden wir auch tun. Karma ist ein testrunner, der die Tests in echten Browsern ausführt und sehr angenehm zu benutzen ist.
+<strong>Advance slides</strong>
+Und zu guter letzt braucht man ein wenig angular-spezifischen boilerplate um unsere Direktive zu laden und zu initiieren. Dafür stellt Angular angular-mocks bereit.</p>
+
+<p>Genug der vorrede, machen wir uns die Hände schmutzig.
+<strong>->IDE live coding, zunächst kein feedback</strong></p>
+
+<p><strong>slide mit fertiger direktive</strong>
+<strong>slide mit test Auszug zur direktive</strong></p>
+
+<p>Ok, was haben wir gerade gelernt?
+<strong>summary</strong>
+Direktiven, sind eigentlich ganz gut zu testen, es bedarf aber etwas mehr boilerplate um ein test-template zu erzeugen.</p>
+
+<p>Kommen wir noch mal zurück zu unserer noise Direktive. Das ist ja ein klassisches Beispiel für eine 3rd party integration. Was uns aber noch fehlt ist der Rückweg. Nehmen wir einfach mal an, wir wollen eine Anzeige, welcher Sound gerade läuft. Dafür muss Howler uns sagen, wann es fertig ist mit abspielen. Aus zeitgründen mache ich das nicht mehr TDD, aber ich will es euch trotzdem kurz zeigen, da es dabei etwas wichtiges zu beachten gibt.
+<strong>->IDE live coding, scope.$watch</strong>
+**slide zu 3rd party/$apply</p>
+
+<p>Fragen zu $apply?</p>
+
+<p>Gut. Eine große Gefahr, beim schreiben von Direktiven ist, dass die Link-Funktion zu groß wird und zu viel tut. Jeder, der schon ein mal direktiven geschrieben hat, kennt das. Alles fängt gut und sauber an, doch eh man sich versieht hat man einen 1000 Zeilen link Funktion - unwartbar und untestbar. Der Beste Weg, die Link Funktion in Kontrolle zu halten ist, ihre Komplexität in Controller und Services aus zu lagern. Dafür können wir unserer Direktive einen Controller mitgeben.</p>
+
+<p><strong>slide zu controller</strong></p>
+
+<p>Diesen Controller können direkt inline deklarieren. Mit DI und soße und allem. Aber dann können wir ihn nur schwer testen. Besser, wir geben nur den Namen eines Controllers im gleichen Modul an und deklarieren ihn ausserhalb der Direktive. Einziger Nachteil an dieser Variante, der Controller ist im ganzen Modul sichtbar und verfügbar. Der DirektivenController kann dann seinerseits Services verwenden - natürlich via DI und diese sind natürlich auch testbar. Im besten Fall setzt unsere link Funktion dann nur noch ein paar Event-Handler auf und alles andere regelt der Controller.</p>
+
+<p><strong>slide mit controller example</strong></p>
+
+<p>Den Kontroller eine Direktive können wir aber auch anderweitig verwenden. Man kann ihn sehr elegant verwenden um eine Kommunikation von mehreren Direktiven untereinander zu ermöglichen.</p>
+
+<p><strong>slide cross-field</strong>
+Nehmen wir als Beispiel eine cross-fiel validation Direktive. Diese muss den aktuellen wert der ng-model Direktive kennen kennen um ihn mit dem wert des anderen Feldes zu vergleichen und ggf das model als invalide deklarieren. Schauen wir uns mal an, wie man so eine cross-field validierung bauen würde
+<strong>->live coding</strong>
+<strong>slide require</strong>
+Mit require können wir also den Controller einer anderen Direktive als dependency erhalten. wir können diese auch als optional deklarieren und angeben, dass diese auch weiter oben im DOM liegen kann.
+Gibt es hierzu Fragen?</p>
+
+<p>Dann kommen wir jetzt zu dem property, dessen Name ich am einschüchternsten Finde &ldquo;transclusion&rdquo;
+<strong>slide transclusion</strong></p>
+
+<p><em>noch offen transclusion/scope</em></p>
+
+<p><strong>slide weitere erlaubte properties</strong>
+Jetzt haben wir fast alle properties, die eine Direktive beschreiben besprochen. Es fehlen nur noch priority, Terminal und Compile. priority ist einfach ein integer, der die Reihenfolge der Auswertung auf einem element angibt. Mit Terminal kann man die Auswertung weiterer Direktiven abbrechen. Und zu guter letzt compile. Bei Compile handelt es sich um eine Funktion, die von angular gerufen wird um die link Funktion zu erhalten. Man kann also nur entweder compile oder link angeben. Gibt man compile an, so muss diese eine link Funktion zurück geben. Compile wird während der template Compilierung gerufen. Zu diesem Zeitpunkt gibt es noch keinen scope. Das kann man in bestimmten Situationen zur performance Optimierung nutzen - das geht aber über einen Crash Course hinaus.</p>
+
+<p>Also, fassen wir noch einmal zusammen, was eine Direktive aus macht:
+<strong>slide mit allen properties</strong>
+Gibt es dazu noch Fragen?</p>
+
+<p>Dann habt ihr&rsquo;s geschafft. Ich hoffe, ich konnte euch einen ganz guten Einblick in das schreiben von eigenen Direktiven verschaffen.</p>
+
+<p><strong>summary slide</strong>
+Es mag vielleicht auf den ersten Blick etwas abschreckend wirken, aber es ist ein sehr flexibler Mechanismus, der einem viele Möglichkeiten bietet und zu sehr deklarativem Markup führt. Und der Einstieg ist wirklich nicht schwer.</p>
+
+<p>Vielen Dank!
+<strong>end slide</strong></p>
