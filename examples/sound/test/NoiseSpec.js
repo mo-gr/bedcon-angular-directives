@@ -18,6 +18,10 @@ describe('Noise Directive', function () {
     it('should create a new Howl', function() {
         expect(HowlerSpy).toHaveBeenCalled();
     });
+    it('should be set the sound to "test.mp3"', function () {
+        var ctorArgs = HowlerSpy.mostRecentCall.args;
+        expect(ctorArgs[0].urls).toContain('test.mp3');
+    });
     it('should play on click', function() {
         element.triggerHandler('click');
         expect(playSpy).toHaveBeenCalled();
