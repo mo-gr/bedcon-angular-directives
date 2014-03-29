@@ -8,6 +8,7 @@
     <div my-own-directive="1">i can haz directive</div>
     <div data-my-own-directive="2">me too</div>
     <div x-my-own-directive="3">and me?</div>
+    <placeholder click-logger>Placeholder</placeholder>
     <script src="./angular.js"></script>
     <script>
         var app = angular.module('DeadSimpleDirectiveApp', []);
@@ -16,6 +17,13 @@
             return function (scope, element, attrs) {
                 console.log('I am linked with', arguments);
                 console.log(attrs.myOwnDirective);
+            }
+        });
+        app.directive('clickLogger', function ($log) {
+            return function (scope, element, attrs) {
+                element.on('click', function () {
+                    $log.log('clicked: ' + element)
+                })
             }
         });
         app.directive('div', function () {
@@ -33,6 +41,13 @@
                     console.log('Highlander?');
                 }
             };
+        });
+        app.directive('placeholder', function () {
+            return {
+                restrict: 'E',
+                replace: true,
+                template: '<div>real deal!</div>'
+            }
         });
     </script>
 </body>
