@@ -7,7 +7,7 @@
 <body ng-app="CrossField">
 
 <form name="testForm">
-    <input type="text" ng-model="password"/>
+    <input type="text" name="password" ng-model="password"/>
     <input type="text" name="confirm" ng-model="confirm" same-as="password"/>
     <br/>
     <div ng-show="testForm.confirm.$error.sameAs">Values don't match!</div>

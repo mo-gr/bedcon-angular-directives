@@ -126,6 +126,11 @@ Wie wir gerade schon am Beispiel gesehen haben, wird die Form der Direktive übe
 Die möglichen Werte sind: _slide ablesen_
 
 Wir kennen jetzt also schon zwei der Properties, die eine Direktive deklarieren. 'restrict' und 'link'
+
+Zum link property gibt es noch etwas wichtiges zu sagen
+**slide link**
+Die Funktion nimmt NICHT am DependencyInjection teil. Sie wird immer mit dem aktuellen scope, dem element, und den Attributen gerufen. element ist dabei schon jquery/jqlite gewrappt. Um zu symbolisieren, dass hier kein DI statt findet, verwendet man üblicherweise hier scope anstatt $scope.
+
 Die nächsten beiden, die wir uns anschauen werden sind 'template' bzw. 'templateUrl'.
 **slide template**
 Wie ihr euch sicher schon gedacht habt, haben all diese properties natürlich sinnvolle defaults. Wir können auch einfach ein leeres Objekt zurück geben und angular würde sich nicht beschweren. Die resultierende Direktive wäre nur nicht sehr spannend.
@@ -152,7 +157,54 @@ dann brauchen wir einen testrunner, der unsere Tests in einer JavaScript engine 
 Und zu guter letzt braucht man ein wenig angular-spezifischen boilerplate um unsere Direktive zu laden und zu initiieren. Dafür stellt Angular angular-mocks bereit.
 
 Genug der vorrede, machen wir uns die Hände schmutzig.
-**->IDE live coding: TESTS FEHLEN NOCH!**
+**->IDE live coding, zunächst kein feedback**
 
 **slide mit fertiger direktive**
 **slide mit test Auszug zur direktive**
+
+Ok, was haben wir gerade gelernt?
+**summary**
+Direktiven, sind eigentlich ganz gut zu testen, es bedarf aber etwas mehr boilerplate um ein test-template zu erzeugen.
+
+Kommen wir noch mal zurück zu unserer noise Direktive. Das ist ja ein klassisches Beispiel für eine 3rd party integration. Was uns aber noch fehlt ist der Rückweg. Nehmen wir einfach mal an, wir wollen eine Anzeige, welcher Sound gerade läuft. Dafür muss Howler uns sagen, wann es fertig ist mit abspielen. Aus zeitgründen mache ich das nicht mehr TDD, aber ich will es euch trotzdem kurz zeigen, da es dabei etwas wichtiges zu beachten gibt.
+**->IDE live coding, scope.$watch**
+**slide zu 3rd party/$apply
+
+Fragen zu $apply?
+
+Gut. Eine große Gefahr, beim schreiben von Direktiven ist, dass die Link-Funktion zu groß wird und zu viel tut. Jeder, der schon ein mal direktiven geschrieben hat, kennt das. Alles fängt gut und sauber an, doch eh man sich versieht hat man einen 1000 Zeilen link Funktion - unwartbar und untestbar. Der Beste Weg, die Link Funktion in Kontrolle zu halten ist, ihre Komplexität in Controller und Services aus zu lagern. Dafür können wir unserer Direktive einen Controller mitgeben.
+
+**slide zu controller**
+
+Diesen Controller können direkt inline deklarieren. Mit DI und soße und allem. Aber dann können wir ihn nur schwer testen. Besser, wir geben nur den Namen eines Controllers im gleichen Modul an und deklarieren ihn ausserhalb der Direktive. Einziger Nachteil an dieser Variante, der Controller ist im ganzen Modul sichtbar und verfügbar. Der DirektivenController kann dann seinerseits Services verwenden - natürlich via DI und diese sind natürlich auch testbar. Im besten Fall setzt unsere link Funktion dann nur noch ein paar Event-Handler auf und alles andere regelt der Controller.
+
+**slide mit controller example**
+
+Den Kontroller eine Direktive können wir aber auch anderweitig verwenden. Man kann ihn sehr elegant verwenden um eine Kommunikation von mehreren Direktiven untereinander zu ermöglichen.
+
+**slide cross-field**
+Nehmen wir als Beispiel eine cross-fiel validation Direktive. Diese muss den aktuellen wert der ng-model Direktive kennen kennen um ihn mit dem wert des anderen Feldes zu vergleichen und ggf das model als invalide deklarieren. Schauen wir uns mal an, wie man so eine cross-field validierung bauen würde
+**->live coding**
+**slide require**
+Mit require können wir also den Controller einer anderen Direktive als dependency erhalten. wir können diese auch als optional deklarieren und angeben, dass diese auch weiter oben im DOM liegen kann.
+Gibt es hierzu Fragen?
+
+Dann kommen wir jetzt zu dem property, dessen Name ich am einschüchternsten Finde "transclusion"
+**slide transclusion**
+
+_noch offen transclusion/scope_
+
+**slide weitere erlaubte properties**
+Jetzt haben wir fast alle properties, die eine Direktive beschreiben besprochen. Es fehlen nur noch priority, Terminal und Compile. priority ist einfach ein integer, der die Reihenfolge der Auswertung auf einem element angibt. Mit Terminal kann man die Auswertung weiterer Direktiven abbrechen. Und zu guter letzt compile. Bei Compile handelt es sich um eine Funktion, die von angular gerufen wird um die link Funktion zu erhalten. Man kann also nur entweder compile oder link angeben. Gibt man compile an, so muss diese eine link Funktion zurück geben. Compile wird während der template Compilierung gerufen. Zu diesem Zeitpunkt gibt es noch keinen scope. Das kann man in bestimmten Situationen zur performance Optimierung nutzen - das geht aber über einen Crash Course hinaus.
+
+Also, fassen wir noch einmal zusammen, was eine Direktive aus macht:
+**slide mit allen properties**
+Gibt es dazu noch Fragen?
+
+Dann habt ihr's geschafft. Ich hoffe, ich konnte euch einen ganz guten Einblick in das schreiben von eigenen Direktiven verschaffen. 
+
+**summary slide**
+Es mag vielleicht auf den ersten Blick etwas abschreckend wirken, aber es ist ein sehr flexibler Mechanismus, der einem viele Möglichkeiten bietet und zu sehr deklarativem Markup führt. Und der Einstieg ist wirklich nicht schwer.
+
+Vielen Dank!
+**end slide** 
