@@ -51,6 +51,40 @@ Wenn man erst ein mal die grundlegenden Konzepte verstanden und verinnerlicht ha
 
 <p><strong>->IDE, hello world example mit API call. etwa 5 min</strong></p>
 
+<pre><code>&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;AngularJS Hello World&lt;/title&gt;
+&lt;/head&gt;
+&lt;body ng-app="HelloWorldApp"&gt;
+    &lt;div id="main" ng-controller="MainController"&gt;
+        &lt;h1&gt;Please state your name:&lt;/h1&gt;
+        &lt;input type="text" ng-model="name"/&gt;
+        &lt;div ng-show="name"&gt;
+            Hello, {{name}}!
+            &lt;div&gt;
+                &lt;button ng-click="foaas(name)"&gt;FOAAS&lt;/button&gt;
+                &lt;h2&gt;{{response.message}}&lt;/h2&gt;
+                &lt;h3&gt;{{response.subtitle}}&lt;/h3&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;script src="./angular.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+        var app = angular.module('HelloWorldApp', []);
+        app.controller('MainController', function($scope, $http) {
+            $scope.foaas = function(name) {
+                $http.get('http://foaas.com/fascinating/' + name).then(function(resp){
+                    $scope.response = resp.data;
+                });
+            };
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
 <p><em>Fokus auf DI, zuletzt erklären, was hier alles direktiven sind</em></p>
 
 <p><strong>slide direktive</strong></p>
@@ -83,6 +117,62 @@ Mein Ziel für heute ist es, euch zu zeigen, dass Direktiven, insbesondere selbs
 <p>Ich denke, am besten ist es, ich zeige euch mal, was man tun muss um eine eigene Direktive in AngularJS zu schreiben.</p>
 
 <p><strong>->IDE, hello-direktive example, zunächst Kurzform, dann langform</strong></p>
+
+<pre><code>&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;AngularJS Hello World Directive&lt;/title&gt;
+&lt;/head&gt;
+&lt;body ng-app="DeadSimpleDirectiveApp"&gt;
+    &lt;div my-own-directive="1"&gt;i can haz directive&lt;/div&gt;
+    &lt;div data-my-own-directive="2"&gt;me too&lt;/div&gt;
+    &lt;div x-my-own-directive="3"&gt;and me?&lt;/div&gt;
+    &lt;placeholder click-logger&gt;Placeholder&lt;/placeholder&gt;
+    &lt;script src="./angular.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+        var app = angular.module('DeadSimpleDirectiveApp', []);
+        app.directive('myOwnDirective', function () {
+            console.log('myOwnDirective init');
+            return function (scope, element, attrs) {
+                console.log('I am linked with', arguments);
+                console.log(attrs.myOwnDirective);
+            }
+        });
+        app.directive('clickLogger', function ($log) {
+            return function (scope, element, attrs) {
+                element.on('click', function () {
+                    $log.log('clicked: ' + element)
+                })
+            }
+        });
+        app.directive('div', function () {
+            return {
+                restrict: 'E',
+                link: function () {
+                    console.log('not sure if brilliant or terrible idea');
+                }
+            };
+        });
+        app.directive('div', function () {
+            return {
+                restrict: 'E',
+                link: function () {
+                    console.log('Highlander?');
+                }
+            };
+        });
+        app.directive('placeholder', function () {
+            return {
+                restrict: 'E',
+                replace: true,
+                template: '&lt;div&gt;real deal!&lt;/div&gt;'
+            }
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
 
 <p><strong>slide zur linkfunktion</strong></p>
 
@@ -183,6 +273,62 @@ Schauen wir uns mal an, wie das aussehen würde</p>
 
 <p><strong>->hello directive um template erweitern</strong></p>
 
+<pre><code>&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;AngularJS Hello World Directive&lt;/title&gt;
+&lt;/head&gt;
+&lt;body ng-app="DeadSimpleDirectiveApp"&gt;
+    &lt;div my-own-directive="1"&gt;i can haz directive&lt;/div&gt;
+    &lt;div data-my-own-directive="2"&gt;me too&lt;/div&gt;
+    &lt;div x-my-own-directive="3"&gt;and me?&lt;/div&gt;
+    &lt;placeholder click-logger&gt;Placeholder&lt;/placeholder&gt;
+    &lt;script src="./angular.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+        var app = angular.module('DeadSimpleDirectiveApp', []);
+        app.directive('myOwnDirective', function () {
+            console.log('myOwnDirective init');
+            return function (scope, element, attrs) {
+                console.log('I am linked with', arguments);
+                console.log(attrs.myOwnDirective);
+            }
+        });
+        app.directive('clickLogger', function ($log) {
+            return function (scope, element, attrs) {
+                element.on('click', function () {
+                    $log.log('clicked: ' + element)
+                })
+            }
+        });
+        app.directive('div', function () {
+            return {
+                restrict: 'E',
+                link: function () {
+                    console.log('not sure if brilliant or terrible idea');
+                }
+            };
+        });
+        app.directive('div', function () {
+            return {
+                restrict: 'E',
+                link: function () {
+                    console.log('Highlander?');
+                }
+            };
+        });
+        app.directive('placeholder', function () {
+            return {
+                restrict: 'E',
+                replace: true,
+                template: '&lt;div&gt;real deal!&lt;/div&gt;'
+            }
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
 <p>Wie wir sehen, wird das template an die Direktive angehangen. Wenn wir die Direktive lieber ersetzen wollen, können wir ein weiteres property spezifizieren.</p>
 
 <p><strong>slide replace</strong></p>
@@ -217,6 +363,53 @@ Schauen wir uns mal an, wie das aussehen würde</p>
 
 <p><strong>->IDE live coding, zunächst kein feedback</strong></p>
 
+<pre><code>(function () {
+    'use strict';
+    var app = angular.module('Example', []);
+
+    app.directive('noise', function($window) {
+        return {
+            link: function (scope, element, attrs) {
+                var sound = new $window.Howl({
+                    urls: [attrs.noise]
+                });
+                element.on('click', function() {sound.play();});
+            }
+        };
+    });
+}());
+
+describe('Noise Directive', function () {
+    var HowlerSpy, playSpy, scope, element;
+    // Load module
+    beforeEach(module('Example'));
+    // prepare mocks
+    beforeEach(inject(function ($window) {
+        playSpy = jasmine.createSpy('play');
+        HowlerSpy = jasmine.createSpy('Howl').andReturn({play: playSpy});
+        $window.Howl = HowlerSpy;
+    }));
+    // prepare directive
+    beforeEach(inject(function($compile, $rootScope) {
+        scope = $rootScope.$new();
+        element = angular.element('&lt;div noise="test.mp3"&gt;Test&lt;/div&gt;');
+        $compile(element)(scope);
+    }));
+    // actual tests
+    it('should create a new Howl', function() {
+        expect(HowlerSpy).toHaveBeenCalled();
+    });
+    it('should be set the sound to "test.mp3"', function () {
+        var ctorArgs = HowlerSpy.mostRecentCall.args;
+        expect(ctorArgs[0].urls).toContain('test.mp3');
+    });
+    it('should play on click', function() {
+        element.triggerHandler('click');
+        expect(playSpy).toHaveBeenCalled();
+    })
+});
+</code></pre>
+
 <p><strong>slide mit fertiger direktive</strong></p>
 
 <p><strong>slide mit test Auszug zur direktive</strong></p>
@@ -230,6 +423,33 @@ Schauen wir uns mal an, wie das aussehen würde</p>
 <p>Kommen wir noch mal zurück zu unserer noise Direktive. Das ist ja ein klassisches Beispiel für eine 3rd party integration. Was uns aber noch fehlt ist der Rückweg. Nehmen wir einfach mal an, wir wollen eine Anzeige, welcher Sound gerade läuft. Dafür muss Howler uns sagen, wann es fertig ist mit abspielen. Aus zeitgründen mache ich das nicht mehr TDD, aber ich will es euch trotzdem kurz zeigen, da es dabei etwas wichtiges zu beachten gibt.</p>
 
 <p><strong>->IDE live coding, scope.$watch</strong></p>
+
+<pre><code>(function () {
+    'use strict';
+    var app = angular.module('Example', []);
+
+    app.directive('noise', function($window) {
+        return {
+            link: function (scope, element, attrs) {
+                var sound = new $window.Howl({
+                    urls: [attrs.noise],
+                    onplay: function () {
+                        scope.$apply(function () {
+                            scope.playing = attrs.noise;
+                        });
+                    },
+                    onend: function () {
+                        scope.$apply(function () {
+                            scope.playing = "";
+                        });
+                    }
+                });
+                element.on('click', function() {sound.play();});
+            }
+        };
+    });
+}());
+</code></pre>
 
 <p><strong>slide zu 3rd party/$apply</strong></p>
 
@@ -250,6 +470,47 @@ Schauen wir uns mal an, wie das aussehen würde</p>
 <p>Nehmen wir als Beispiel eine cross-fiel validation Direktive. Diese muss den aktuellen wert der ng-model Direktive kennen kennen um ihn mit dem wert des anderen Feldes zu vergleichen und ggf das model als invalide deklarieren. Schauen wir uns mal an, wie man so eine cross-field validierung bauen würde</p>
 
 <p><strong>->live coding</strong></p>
+
+<pre><code>&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Cross Field Validation&lt;/title&gt;
+&lt;/head&gt;
+&lt;body ng-app="CrossField"&gt;
+
+&lt;form name="testForm"&gt;
+    &lt;input type="text" name="password" ng-model="password"/&gt;
+    &lt;input type="text" name="confirm" ng-model="confirm" same-as="password"/&gt;
+    &lt;br/&gt;
+    &lt;div ng-show="testForm.confirm.$error.sameAs"&gt;Values don't match!&lt;/div&gt;
+    &lt;!--{{testForm.confirm.$error}}--&gt;
+&lt;/form&gt;
+
+&lt;script src="./angular.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    var app = angular.module('CrossField', []);
+
+    app.directive('sameAs', function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, elem, attrs, ngModel) {
+                var isSame = function (value) {
+                    var expected = scope.$eval(attrs.sameAs);
+                    var same = expected === value;
+                    ngModel.$setValidity('sameAs', same);
+                };
+                ngModel.$parsers.push(isSame);
+                scope.$watch(attrs.sameAs, function () {
+                    ngModel.$setViewValue(ngModel.$viewValue);
+                })
+            }
+        }
+    });
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
 
 <p><strong>slide require</strong></p>
 
@@ -289,6 +550,85 @@ Diese option ist die beste Option, wenn man wiederverwendbare Direktiven erzeuge
 <p>Am besten, wir schauen uns das mal an einem konkreten Beispiel an. Dann kann man sich das besser vorstellen.</p>
 
 <p><strong>->ide live coding</strong></p>
+
+<pre><code>&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"/&gt;
+    &lt;title&gt;Drinks Machine&lt;/title&gt;
+    &lt;link rel="stylesheet" href="css/style.css"/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class="content" ng-app="DrinksMachine"&gt;
+    &lt;h1&gt;Fancy Drinks Machine&lt;/h1&gt;
+
+    &lt;div ng-controller="SelectionController"&gt;
+        &lt;div class="button"
+             ng-class="{selected: model.selectedDrink == 'Coffee'}"
+             ng-click="eatCoins('Coffee')"&gt;
+            Coffee
+        &lt;/div&gt;
+
+        &lt;drink-select drink="Grog" selection="model.selectedDrink" on-choice="selectDrink(drink)"&gt;&lt;/drink-select&gt;
+
+        &lt;drink-select drink="Grog Lite" selection="model.selectedDrink" on-choice="selectDrink(drink)"&gt;&lt;/drink-select&gt;
+
+        &lt;label for="customDrink"&gt;Custom Drink&lt;/label&gt;
+        &lt;input id="customDrink" type="text" ng-model="customDrink" ng-init="customDrink = 'Grog Zero'"/&gt;
+        &lt;drink-select drink="{{customDrink || '?'}}" selection="model.selectedDrink"
+                      on-choice="eatCoins(drink)"&gt;&lt;/drink-select&gt;
+    &lt;/div&gt;
+    &lt;script type="text/ng-template" id="drink-select.html"&gt;
+        &lt;div class="button"
+             ng-class="{selected: selection == drink}"
+             ng-click="onChoice({drink:drink})"&gt;
+            {{drink}}
+        &lt;/div&gt;
+    &lt;/script&gt;
+&lt;/div&gt;
+&lt;script src="js/angular.js"&gt;&lt;/script&gt;
+&lt;script src="js/app.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+(function () {
+    'use strict';
+    var app = angular.module('DrinksMachine', []);
+
+    app.controller('SelectionController', function ($scope, $log) {
+        var model = {
+            selectedDrink: ''
+        };
+
+        $scope.selectDrink = function (selection) {
+            model.selectedDrink = selection;
+        };
+
+        $scope.eatCoins = function (drink) {
+            model.selectedDrink = '';
+            $log.info('Rumble, but keep: ' + drink);
+        };
+
+        $scope.model = model;
+    });
+
+    app.directive('drinkSelect', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'drink-select.html',
+            replace: true,
+            scope: {
+                drink: '@',
+                selection: '=',
+                onChoice: '&amp;'
+            },
+            link: function (scope, elem, attrs) {
+                // scope.drink = attrs.drink; // nope
+            }
+        }
+    });
+}());
+</code></pre>
 
 <p><strong>slide isolate scope options mit bild</strong></p>
 

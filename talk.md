@@ -8,7 +8,7 @@ Sondern eher so einen Crash Course
 
 **positiven Bild eines Crash Course**
 
-Aber eins nach dem anderen. Zu erst möchte ich mich ganz kurz vorstellen. 
+Aber eins nach dem anderen. Zu erst möchte ich mich ganz kurz vorstellen.
 
 **slide mit tagline**
 
@@ -20,7 +20,7 @@ Jedenfalls verdiene ich jetzt seit über 7 Jahren meinen Lebensunterhalt mit Sof
 
 ...AngularJS. Ich denke mal, die meisten hier im Raum haben zumindest schon mal von AngularJS gehört.
 AngularJS nennt sich selbst Super Heroic JavaScript Model View Whatever Framework. Was genau soll das bedeuten?
-Im wesentlichen ist AngularJS ein weiteres ModelViewController Framework um client seitiges JavaScript besser zu strukturieren.   Also im wesentlichen Vergleichbar mit Backbone, Ember.js, knockout und wie sie nicht alle heißen. 
+Im wesentlichen ist AngularJS ein weiteres ModelViewController Framework um client seitiges JavaScript besser zu strukturieren.   Also im wesentlichen Vergleichbar mit Backbone, Ember.js, knockout und wie sie nicht alle heißen.
 Inzwischen könnte man sogar fast anfangen, AngularJS als abgehangene Software zu bezeichnen. Immerhin hatte Angular seinen ersten öffentlichen release 2009, also for 5 Jahren. Wenn man sich diverse MVC Frameworks anschaut - nicht nur im Web - wird man feststellen, dass sich eigentlich alle recht einig sind, was ein Model ist und welche Aufgaben es hat. Auch bei der View gibt es mal von Backbone abgesehen relativ wenig Diskussion über die Aufgabe. Oh man, ich sage lieber gar nicht, wie lange ich gebraucht habe um zu Verstehen, dass das, was Backbone eine View nennt in meinem kleinen Welt Controller heißt. Und da sind wir auch schon beim Kern der Diskussion. Über die genaue Form und aufgabe des Controllers gibt es erstaunlich vielfältige Diskussionen. Model View Controller, Model View Presenter, Model View View-Model und so weiter. Um diesen Diskussionen zumindest ein wenig aus dem weg zu gehen ist nennt sich Angular schlicht Model-View-Whatever Framework.
 Noch ein paar ganz kurze Zahlen und Fakten zu AngularJS.
 
@@ -51,22 +51,55 @@ Ich vermute, die meisten hier im Raum haben sich schon mehr oder weniger mit Ang
 
 **->IDE, hello world example mit API call. etwa 5 min**
 
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>AngularJS Hello World</title>
+    </head>
+    <body ng-app="HelloWorldApp">
+        <div id="main" ng-controller="MainController">
+            <h1>Please state your name:</h1>
+            <input type="text" ng-model="name"/>
+            <div ng-show="name">
+                Hello, {{name}}!
+                <div>
+                    <button ng-click="foaas(name)">FOAAS</button>
+                    <h2>{{response.message}}</h2>
+                    <h3>{{response.subtitle}}</h3>
+                </div>
+            </div>
+        </div>
+        <script src="./angular.js"></script>
+        <script>
+            var app = angular.module('HelloWorldApp', []);
+            app.controller('MainController', function($scope, $http) {
+                $scope.foaas = function(name) {
+                    $http.get('http://foaas.com/fascinating/' + name).then(function(resp){
+                        $scope.response = resp.data;
+                    });
+                };
+            });
+        </script>
+    </body>
+    </html>
+
 *Fokus auf DI, zuletzt erklären, was hier alles direktiven sind*
 
 **slide direktive**
 
-Ok, wir haben gerade ein paar direktiven gesehen. Direktiven sind irgendwie der magische Feenstaub, an angulars templating System. 
-Direktiven. Irgendwie ein schwammiger Begriff. Mir war am Anfang nicht so ganz klar, was ich mir genau unter eine Direktive vorzustellen habe. Aber eigentlich ist das ganz einfach. Eine Direktive ist nicht viel mehr als ein marker im DOM, mit dem ich Angular sage, dass es an dieser Stelle im DOM code ausführen muss. 
+Ok, wir haben gerade ein paar direktiven gesehen. Direktiven sind irgendwie der magische Feenstaub, an angulars templating System.
+Direktiven. Irgendwie ein schwammiger Begriff. Mir war am Anfang nicht so ganz klar, was ich mir genau unter eine Direktive vorzustellen habe. Aber eigentlich ist das ganz einfach. Eine Direktive ist nicht viel mehr als ein marker im DOM, mit dem ich Angular sage, dass es an dieser Stelle im DOM code ausführen muss.
 
 **Direktiven sind marker im DOM**
 
 Wir haben jetzt gerade schon ein paar Direktiven gesehen, die AngularJS mitbringt. Aber Angular ermöglicht es natürlich auch, eigene solche Direktiven, also eigene Attribute und Tags zu erfinden mit denen ich beliebige Funktionalität im DOM verankern kann. Dadurch ermöglicht AngularJS einen sehr ausdrucksstarken, deklarativen Programmierstil.
 Eigene Direktiven sind ein ganz wichtiges Puzzlestück um elegante, wartbare Anwendungen in AngularJS zu schreiben.
 
-Leider sehen viele Entwickler, die neu zu AngularJS kommen, Direktiven oft als fortgeschritteneres Feature an und fangen erst viel zu spät an, sich damit zu befassen. 
+Leider sehen viele Entwickler, die neu zu AngularJS kommen, Direktiven oft als fortgeschritteneres Feature an und fangen erst viel zu spät an, sich damit zu befassen.
 Mein Ziel für heute ist es, euch zu zeigen, dass Direktiven, insbesondere selbsgeschriebene, viel weniger Magie beinhalten, als man vielleicht vermuten mag.
 
-Ich denke mal, alle hier im Raum haben schon mal mit jQuery gearbeitet. Direktiven invertieren quasi das Model von jQuery. Während man bei jQuery in der Regel anhand von irgendeinem mehr oder weniger komplexen Selektor nach Elementen im DOM fischt, um diesen Leben ein zu hauchen, markiert man bei AngualarJS die Elemente im DOM mit einer Direktive. 
+Ich denke mal, alle hier im Raum haben schon mal mit jQuery gearbeitet. Direktiven invertieren quasi das Model von jQuery. Während man bei jQuery in der Regel anhand von irgendeinem mehr oder weniger komplexen Selektor nach Elementen im DOM fischt, um diesen Leben ein zu hauchen, markiert man bei AngualarJS die Elemente im DOM mit einer Direktive.
 
 **slide jQuery vs direktiven**
 
@@ -78,15 +111,70 @@ Das ganze hätte in AngularJS hoffentlich eher so ausgesehen
 
 **<div ng-click="fml()">**
 
-Die Zuordnung von Funktionalität zu DOM Elementen passiert bei AngularJS in meinen Augen expliziter und vor allem immer im Template. 
+Die Zuordnung von Funktionalität zu DOM Elementen passiert bei AngularJS in meinen Augen expliziter und vor allem immer im Template.
 
 Ich denke, am besten ist es, ich zeige euch mal, was man tun muss um eine eigene Direktive in AngularJS zu schreiben.
 
 **->IDE, hello-direktive example, zunächst Kurzform, dann langform**
 
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>AngularJS Hello World Directive</title>
+    </head>
+    <body ng-app="DeadSimpleDirectiveApp">
+        <div my-own-directive="1">i can haz directive</div>
+        <div data-my-own-directive="2">me too</div>
+        <div x-my-own-directive="3">and me?</div>
+        <placeholder click-logger>Placeholder</placeholder>
+        <script src="./angular.js"></script>
+        <script>
+            var app = angular.module('DeadSimpleDirectiveApp', []);
+            app.directive('myOwnDirective', function () {
+                console.log('myOwnDirective init');
+                return function (scope, element, attrs) {
+                    console.log('I am linked with', arguments);
+                    console.log(attrs.myOwnDirective);
+                }
+            });
+            app.directive('clickLogger', function ($log) {
+                return function (scope, element, attrs) {
+                    element.on('click', function () {
+                        $log.log('clicked: ' + element)
+                    })
+                }
+            });
+            app.directive('div', function () {
+                return {
+                    restrict: 'E',
+                    link: function () {
+                        console.log('not sure if brilliant or terrible idea');
+                    }
+                };
+            });
+            app.directive('div', function () {
+                return {
+                    restrict: 'E',
+                    link: function () {
+                        console.log('Highlander?');
+                    }
+                };
+            });
+            app.directive('placeholder', function () {
+                return {
+                    restrict: 'E',
+                    replace: true,
+                    template: '<div>real deal!</div>'
+                }
+            });
+        </script>
+    </body>
+    </html>
+
 **slide zur linkfunktion**
 
-Eine Direktiven kann man sich im Kern also erstmal als eine JavaScript Funktion vorstellen, die den aktuellen scope, das entsprechende DOM Element und dessen Attribute als Parameter übergeben bekommt. 
+Eine Direktiven kann man sich im Kern also erstmal als eine JavaScript Funktion vorstellen, die den aktuellen scope, das entsprechende DOM Element und dessen Attribute als Parameter übergeben bekommt.
 
 **evtl joke über jQuery**
 
@@ -108,7 +196,7 @@ Der nächste Große Einsatzzweck von direktiven sind UI Widgets. Irgendwie wiede
 
 Und zu guter letzt kann man direktiven auch einfach als mittel des templating verwenden.
 
-**advance slides: templates** 
+**advance slides: templates**
 
 Man fasst also komplexe DOM Konstrukte einfach in einer aussagekräftigen Direktive zusammen
 
@@ -125,7 +213,7 @@ Ein schönes Beispiel, das all diese dinge kombiniert, also eine DOM-lastige 3rd
 Angular-ui ist ein Projekt, das die UI Widgets aus dem bekannten Twitter Bootstrap in direktiven verpackt und sie für angularjs sehr pragmatisch nutzbar macht. Der source code von angular-ui ist bestens geeignet um mehr über direktiven zu lernen und sich anzuschauen, wie andere Leute, Schwierigkeiten lösen, die beim entwickeln von wiederverwendbaren direktiven entstehen.
 
 Und was sollte man besser nicht in direktiven verpacken?
-Insbesondere sollte man sich davor hüten zu viel Logik in direktiven zu haben. 
+Insbesondere sollte man sich davor hüten zu viel Logik in direktiven zu haben.
 
 **slide wenig businesslogik**
 
@@ -178,10 +266,65 @@ Die nächsten beiden, die wir uns anschauen werden sind 'template' bzw. 'templat
 **slide template**
 
 Wie ihr euch sicher schon gedacht habt, haben all diese properties natürlich sinnvolle defaults. Wir können auch einfach ein leeres Objekt zurück geben und angular würde sich nicht beschweren. Die resultierende Direktive wäre nur nicht sehr spannend.
-template ermöglicht es uns, den dom an der Stelle, an der die Direktive vorkommt durch zu erweitern. Template ist einfach ein String, der den neuen Content beinhaltet und templateUrl ist eine URL zu einem template in angulars template cache. 
+template ermöglicht es uns, den dom an der Stelle, an der die Direktive vorkommt durch zu erweitern. Template ist einfach ein String, der den neuen Content beinhaltet und templateUrl ist eine URL zu einem template in angulars template cache.
 Schauen wir uns mal an, wie das aussehen würde
 
 **->hello directive um template erweitern**
+
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>AngularJS Hello World Directive</title>
+    </head>
+    <body ng-app="DeadSimpleDirectiveApp">
+        <div my-own-directive="1">i can haz directive</div>
+        <div data-my-own-directive="2">me too</div>
+        <div x-my-own-directive="3">and me?</div>
+        <placeholder click-logger>Placeholder</placeholder>
+        <script src="./angular.js"></script>
+        <script>
+            var app = angular.module('DeadSimpleDirectiveApp', []);
+            app.directive('myOwnDirective', function () {
+                console.log('myOwnDirective init');
+                return function (scope, element, attrs) {
+                    console.log('I am linked with', arguments);
+                    console.log(attrs.myOwnDirective);
+                }
+            });
+            app.directive('clickLogger', function ($log) {
+                return function (scope, element, attrs) {
+                    element.on('click', function () {
+                        $log.log('clicked: ' + element)
+                    })
+                }
+            });
+            app.directive('div', function () {
+                return {
+                    restrict: 'E',
+                    link: function () {
+                        console.log('not sure if brilliant or terrible idea');
+                    }
+                };
+            });
+            app.directive('div', function () {
+                return {
+                    restrict: 'E',
+                    link: function () {
+                        console.log('Highlander?');
+                    }
+                };
+            });
+            app.directive('placeholder', function () {
+                return {
+                    restrict: 'E',
+                    replace: true,
+                    template: '<div>real deal!</div>'
+                }
+            });
+        </script>
+    </body>
+    </html>
 
 Wie wir sehen, wird das template an die Direktive angehangen. Wenn wir die Direktive lieber ersetzen wollen, können wir ein weiteres property spezifizieren.
 
@@ -191,7 +334,7 @@ Wenn wir replace auf true setzten, dann ersetzt angular unsere Direktive mit ihr
 
 **->hello directive**
 
-So, wir kennen jetzt zwar noch lange nicht alle properties, die eine Direktive ausmachen, aber genug um uns an unsere erste halbwegs sinnvolle Direktive zu wagen. Findet ihr nicht auch, dass das Internet im allgemeinen zu wenig Geräusche macht? Das sollten wir ändern. Wie wäre es mit einer Direktive, die uns ermöglicht, einen sound zu definieren, der beim Klick auf ein Element ertönt. 
+So, wir kennen jetzt zwar noch lange nicht alle properties, die eine Direktive ausmachen, aber genug um uns an unsere erste halbwegs sinnvolle Direktive zu wagen. Findet ihr nicht auch, dass das Internet im allgemeinen zu wenig Geräusche macht? Das sollten wir ändern. Wie wäre es mit einer Direktive, die uns ermöglicht, einen sound zu definieren, der beim Klick auf ein Element ertönt.
 
 **slide sound direktive**
 
@@ -207,7 +350,7 @@ Um eine AngularJS Anwendung oder teile davon zu testen benötigt man neben den e
 
 **advance slides**
 
-dann brauchen wir einen testrunner, der unsere Tests in einer JavaScript engine ausführt. AngularJS verwendet für seine tests karma, und das werden wir auch tun. Karma ist ein testrunner, der die Tests in echten Browsern ausführt und sehr angenehm zu benutzen ist. 
+dann brauchen wir einen testrunner, der unsere Tests in einer JavaScript engine ausführt. AngularJS verwendet für seine tests karma, und das werden wir auch tun. Karma ist ein testrunner, der die Tests in echten Browsern ausführt und sehr angenehm zu benutzen ist.
 
 **Advance slides**
 
@@ -216,6 +359,52 @@ Und zu guter letzt braucht man ein wenig angular-spezifischen boilerplate um uns
 Genug der vorrede, machen wir uns die Hände schmutzig.
 
 **->IDE live coding, zunächst kein feedback**
+
+    (function () {
+        'use strict';
+        var app = angular.module('Example', []);
+
+        app.directive('noise', function($window) {
+            return {
+                link: function (scope, element, attrs) {
+                    var sound = new $window.Howl({
+                        urls: [attrs.noise]
+                    });
+                    element.on('click', function() {sound.play();});
+                }
+            };
+        });
+    }());
+
+    describe('Noise Directive', function () {
+        var HowlerSpy, playSpy, scope, element;
+        // Load module
+        beforeEach(module('Example'));
+        // prepare mocks
+        beforeEach(inject(function ($window) {
+            playSpy = jasmine.createSpy('play');
+            HowlerSpy = jasmine.createSpy('Howl').andReturn({play: playSpy});
+            $window.Howl = HowlerSpy;
+        }));
+        // prepare directive
+        beforeEach(inject(function($compile, $rootScope) {
+            scope = $rootScope.$new();
+            element = angular.element('<div noise="test.mp3">Test</div>');
+            $compile(element)(scope);
+        }));
+        // actual tests
+        it('should create a new Howl', function() {
+            expect(HowlerSpy).toHaveBeenCalled();
+        });
+        it('should be set the sound to "test.mp3"', function () {
+            var ctorArgs = HowlerSpy.mostRecentCall.args;
+            expect(ctorArgs[0].urls).toContain('test.mp3');
+        });
+        it('should play on click', function() {
+            element.triggerHandler('click');
+            expect(playSpy).toHaveBeenCalled();
+        })
+    });
 
 **slide mit fertiger direktive**
 
@@ -230,6 +419,33 @@ Direktiven, sind eigentlich ganz gut zu testen, es bedarf aber etwas mehr boiler
 Kommen wir noch mal zurück zu unserer noise Direktive. Das ist ja ein klassisches Beispiel für eine 3rd party integration. Was uns aber noch fehlt ist der Rückweg. Nehmen wir einfach mal an, wir wollen eine Anzeige, welcher Sound gerade läuft. Dafür muss Howler uns sagen, wann es fertig ist mit abspielen. Aus zeitgründen mache ich das nicht mehr TDD, aber ich will es euch trotzdem kurz zeigen, da es dabei etwas wichtiges zu beachten gibt.
 
 **->IDE live coding, scope.$watch**
+
+    (function () {
+        'use strict';
+        var app = angular.module('Example', []);
+
+        app.directive('noise', function($window) {
+            return {
+                link: function (scope, element, attrs) {
+                    var sound = new $window.Howl({
+                        urls: [attrs.noise],
+                        onplay: function () {
+                            scope.$apply(function () {
+                                scope.playing = attrs.noise;
+                            });
+                        },
+                        onend: function () {
+                            scope.$apply(function () {
+                                scope.playing = "";
+                            });
+                        }
+                    });
+                    element.on('click', function() {sound.play();});
+                }
+            };
+        });
+    }());
+
 
 **slide zu 3rd party/$apply**
 
@@ -251,6 +467,46 @@ Nehmen wir als Beispiel eine cross-fiel validation Direktive. Diese muss den akt
 
 **->live coding**
 
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Cross Field Validation</title>
+    </head>
+    <body ng-app="CrossField">
+
+    <form name="testForm">
+        <input type="text" name="password" ng-model="password"/>
+        <input type="text" name="confirm" ng-model="confirm" same-as="password"/>
+        <br/>
+        <div ng-show="testForm.confirm.$error.sameAs">Values don't match!</div>
+        <!--{{testForm.confirm.$error}}-->
+    </form>
+
+    <script src="./angular.js"></script>
+    <script>
+        var app = angular.module('CrossField', []);
+
+        app.directive('sameAs', function () {
+            return {
+                require: 'ngModel',
+                link: function (scope, elem, attrs, ngModel) {
+                    var isSame = function (value) {
+                        var expected = scope.$eval(attrs.sameAs);
+                        var same = expected === value;
+                        ngModel.$setValidity('sameAs', same);
+                    };
+                    ngModel.$parsers.push(isSame);
+                    scope.$watch(attrs.sameAs, function () {
+                        ngModel.$setViewValue(ngModel.$viewValue);
+                    })
+                }
+            }
+        });
+    </script>
+    </body>
+    </html>
+
 **slide require**
 
 Mit require können wir also den Controller einer anderen Direktive als dependency erhalten. wir können diese auch als optional deklarieren und angeben, dass diese auch weiter oben im DOM liegen kann.
@@ -264,7 +520,7 @@ Oft kommt es vor, dass man den content einer Direktive an anderer Stelle verwend
 
 **slide message box sample**
 
-Um an den Inhalt der Direktive zu gelangen, transkludiert man diesen im neuen Template. Dazu muss man seiner Direktive sagen, dass sie transklusion unterstützen soll und verwendet dann innerhalb des neuen templates 'ng-transclude'. 
+Um an den Inhalt der Direktive zu gelangen, transkludiert man diesen im neuen Template. Dazu muss man seiner Direktive sagen, dass sie transklusion unterstützen soll und verwendet dann innerhalb des neuen templates 'ng-transclude'.
 
 **slide message box directive code**
 
@@ -290,6 +546,85 @@ Am besten, wir schauen uns das mal an einem konkreten Beispiel an. Dann kann man
 
 **->ide live coding**
 
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Drinks Machine</title>
+        <link rel="stylesheet" href="css/style.css"/>
+    </head>
+    <body>
+    <div class="content" ng-app="DrinksMachine">
+        <h1>Fancy Drinks Machine</h1>
+
+        <div ng-controller="SelectionController">
+            <div class="button"
+                 ng-class="{selected: model.selectedDrink == 'Coffee'}"
+                 ng-click="eatCoins('Coffee')">
+                Coffee
+            </div>
+
+            <drink-select drink="Grog" selection="model.selectedDrink" on-choice="selectDrink(drink)"></drink-select>
+
+            <drink-select drink="Grog Lite" selection="model.selectedDrink" on-choice="selectDrink(drink)"></drink-select>
+
+            <label for="customDrink">Custom Drink</label>
+            <input id="customDrink" type="text" ng-model="customDrink" ng-init="customDrink = 'Grog Zero'"/>
+            <drink-select drink="{{customDrink || '?'}}" selection="model.selectedDrink"
+                          on-choice="eatCoins(drink)"></drink-select>
+        </div>
+        <script type="text/ng-template" id="drink-select.html">
+            <div class="button"
+                 ng-class="{selected: selection == drink}"
+                 ng-click="onChoice({drink:drink})">
+                {{drink}}
+            </div>
+        </script>
+    </div>
+    <script src="js/angular.js"></script>
+    <script src="js/app.js"></script>
+    </body>
+    </html>
+
+    (function () {
+        'use strict';
+        var app = angular.module('DrinksMachine', []);
+
+        app.controller('SelectionController', function ($scope, $log) {
+            var model = {
+                selectedDrink: ''
+            };
+
+            $scope.selectDrink = function (selection) {
+                model.selectedDrink = selection;
+            };
+
+            $scope.eatCoins = function (drink) {
+                model.selectedDrink = '';
+                $log.info('Rumble, but keep: ' + drink);
+            };
+
+            $scope.model = model;
+        });
+
+        app.directive('drinkSelect', function () {
+            return {
+                restrict: 'E',
+                templateUrl: 'drink-select.html',
+                replace: true,
+                scope: {
+                    drink: '@',
+                    selection: '=',
+                    onChoice: '&'
+                },
+                link: function (scope, elem, attrs) {
+                    // scope.drink = attrs.drink; // nope
+                }
+            }
+        });
+    }());
+
+
 **slide isolate scope options mit bild**
 
 Hier noch mal die drei Möglichkeiten beim isolate scope im überblick und darunter visualisiert. Also @ legt quasi einen impliziten watch an und wird mit dem aktuellen wert aktualisiert, kann diesen aber nicht selbst verändern. = legt ein bidirektionales mapping an. Die Direktive kann den wert also auch im umliegenden scope verändern. Und & ermöglicht es, Funktionen im umliegenden scope zu rufen. Wobei der Umgang mit Parametern auf den ersten Blick gewöhnungsbedürftig ist.
@@ -305,7 +640,7 @@ Also, fassen wir noch einmal zusammen, was eine Direktive aus macht:
 
 Gibt es dazu noch Fragen?
 
-Dann habt ihr's geschafft. Ich hoffe, ich konnte euch einen ganz guten Einblick in das schreiben von eigenen Direktiven verschaffen. 
+Dann habt ihr's geschafft. Ich hoffe, ich konnte euch einen ganz guten Einblick in das schreiben von eigenen Direktiven verschaffen.
 
 **summary slide**
 
@@ -313,5 +648,5 @@ Es mag vielleicht auf den ersten Blick etwas abschreckend wirken, aber es ist ei
 
 Vielen Dank!
 
-**end slide** 
+**end slide**
 
