@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS Hello World</title>
+</head>
+<body ng-app="HelloWorldApp">
+    <div id="main" ng-controller="MainController">
+        <h1>Please state your name:</h1>
+        <input type="text" ng-model="name"/>
+        <div ng-show="name">
+            Hello, {{name}}!
+            <div>
+                <button ng-click="foaas(name)">FOAAS</button>
+                <h2>{{response.message}}</h2>
+                <h3>{{response.subtitle}}</h3>
+            </div>
+        </div>
+    </div>
+    <script src="./angular.js"></script>
+    <script>
+        var app = angular.module('HelloWorldApp', []);
+        app.controller('MainController', function($scope, $http) {
+            $scope.foaas = function(name) {
+                $http.get('http://foaas.com/fascinating/' + name).then(function(resp){
+                    $scope.response = resp.data;
+                });
+            };
+        });
+    </script>
+</body>
+</html>

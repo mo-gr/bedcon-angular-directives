@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cross Field Validation</title>
+</head>
+<body ng-app="CrossField">
+
+<form name="testForm">
+    <input type="text" name="password" ng-model="password"/>
+    <input type="text" name="confirm" ng-model="confirm" same-as="password"/>
+    <br/>
+    <div ng-show="testForm.confirm.$error.sameAs">Values don't match!</div>
+    <!--{{testForm.confirm.$error}}-->
+</form>
+
+<script src="./angular.js"></script>
+<script>
+    var app = angular.module('CrossField', []);
+
+    app.directive('sameAs', function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, elem, attrs, ngModel) {
+                var isSame = function (value) {
+                    var expected = scope.$eval(attrs.sameAs);
+                    var same = expected === value;
+                    ngModel.$setValidity('sameAs', same);
+                };
+                ngModel.$parsers.push(isSame);
+                scope.$watch(attrs.sameAs, function () {
+                    ngModel.$setViewValue(ngModel.$viewValue);
+                })
+            }
+        }
+    });
+</script>
+</body>
+</html>
