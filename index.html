@@ -37,10 +37,334 @@
                 <a href="http://moritz.grauel.is/awesome">Moritz Grauel</a> / <a href="http://twitter.com/mo_gr">@mo_gr</a>
             </p>
         </section>
+
+        <section>
+            <img src="img/Driving_School_Car_Crash.jpg" alt="Driving School Car Crash" width="640"/>
+        </section>
+        <section>
+            <img src="img/owl.jpg" alt="How to draw an owl"/>
+        </section>
+
+        <section>
+            <h1>Moritz Grauel</h1>
+            <p class="tagline">Berlin native. Bit herder. Code connoisseur. Coffee lover.</p>
+            <p>Freelance Software Entwickler &amp; Trainer</p>
+            <p>Web – JVM – iOS</p>
+        </section>
+
+        <section>
+            <section>
+                <img src="img/AngularJS-large.png" alt="AngularJS Logo" class="whiteBox">
+            </section>
+            <section>
+                <h3>Superheroic JavaScript MVW Framework</h3>
+                <ul>
+                    <li>Client Side MVC Framework</li>
+                    <li>ehemals 20% Projekt bei Google</li>
+                    <li>&gt; 5 Jahre</li>
+                    <li>aktuell 1.2.15</li>
+                    <li>aktive Community, &gt; 400 Contributor</li>
+                    <li>Github, MIT</li>
+                </ul>
+            </section>
+            <section>
+                <h3>AngularJS Killer Features</h3>
+                <ul>
+                    <li>Modulare Anwendungsstruktur &amp; Testbarkeit</li>
+                    <li>Dependency Injection</li>
+                    <li>2-way Data Binding</li>
+                    <li>Template System</li>
+                </ul>
+            </section>
+            <section><img src="img/curves.jpg" alt="learning curves"></section>
+            <section><img src="img/feelings_about_angularjs_over_time.png" alt="angularjs learning curve"></section>
+            <section>
+                <h3>Demo: <code>hello-angular</code></h3>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h3>AngularJS Direktiven</h3>
+                <p class="fragment fade-in"><code>ng-app, ng-controller, ng-click, ...</code></p>
+                <p class="fragment fade-in">Nicht nur Attribute, auch Elemente</p>
+            </section>
+            <section><h3>Direktiven sind marker im DOM</h3></section>
+            <section>
+                <h3>jQuery vs Direktiven</h3>
+                <pre class="fragment fade-int"><code class="javascript">$("#content form.form ul ~ input + div").on("click", fmlHandler);</code></pre>
+                <pre class="fragment fade-int"><code><div ng-click="fml()">You can't touch this!</div></code></pre>
+                <pre class="fragment fade-int"><code><div fml="">You can't touch this!</div></code></pre>
+                <pre class="fragment fade-int"><code><fml>You can't touch this!</fml></code></pre>
+            </section>
+            <section>
+                <h3>Eigene Direktiven</h3>
+            </section>
+            <section>
+                <h3>Demo: <code>hello-directive</code></h3>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h3>Eigene Direktiven: <code>linkFunction</code></h3>
+                <pre><code class="javascript">
+                {
+                    link: function (scope, element, attributes) {
+                      // element is jqLite/jQuery wrapped
+                      // code to run on/with that element
+                    }
+                }</code></pre>
+            </section>
+            <!--<section>-->
+                <!--<h3>jQuery vs AngularJS</h3>-->
+                <!--<ul>-->
+                    <!--<li>Angular uses jQuery when available</li>-->
+                    <!--<li>transparently falls back to jqLite</li>-->
+                    <!--<li>new to Angular? – Don't include jQuery</li>-->
+                <!--</ul>-->
+            <!--</section>-->
+            <!--<section>-->
+                <!--<img src="img/jakeweary.png" alt="jQuery"/>-->
+            <!--</section>-->
+
+            <section>
+                <h3>Was gehört in eine Direktive?</h3>
+                <ul>
+                    <li class="fragment fade-in">DOM Manipulation</li>
+                    <li class="fragment fade-in">3rd Party JS Bibliotheken</li>
+                    <li class="fragment fade-in">UI Widgets</li>
+                    <li class="fragment fade-in">semantisches Templating</li>
+                </ul>
+            </section>
+            <section>
+                <h3>semantisches Templating</h3>
+                <pre><code>
+<app>
+    <header>
+        <navigation-bar></navigation-bar>
+        <user-info></user-info>
+    </header>
+    <content>
+        <sidepanel></sidepanel>
+        <awesome-magic-product></awesome-magic-product>
+    </content>
+    <footer></footer>
+</app>
+
+                </code></pre>
+            </section>
+            <section>
+                <h3>Was gehört in eine Direktive?</h3>
+                <ul>
+                    <li >DOM Manipulation</li>
+                    <li >3rd Party JS Bibliotheken</li>
+                    <li >UI Widgets</li>
+                    <li >semantisches Templating</li>
+                </ul>
+            </section>
+            <section>
+                <h3><a href="http://angular-ui.github.io">Angular-UI</a></h3>
+                <ul>
+                    <li>Twitter Bootstrap (und weitere)</li>
+                    <li>als direktiven verpackt</li>
+                    <li>gutes Beispiel zum lernen</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Keep 'em stupid</h3>
+                <ul>
+                    <li>wenig/keine Logik in direktiven</li>
+                    <li>kein AJAX etc</li>
+                    <li>DOM ist Komplexität genug</li>
+                    <li>Business Logik gehört in services</li>
+                </ul>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h3>Direktiven Deklarieren</h3>
+                <ul>
+                    <li>immer in Modul Kontext</li>
+                    <li><code>directive()</code> Funktion</li>
+                </ul>
+                <pre><code class="javascript">
+                    var module = angular.module('Example', []);
+                    module.directive('directiveName', function() {
+                        return {
+                          // describe directive
+                        };
+                    });
+                </code></pre>
+            </section>
+            <section>
+                <h3>Normalisierter Name</h3>
+                <ol>
+                    <li>Strip <code>x-</code> und <code>data-</code></li>
+                    <li>Konvertiere <code>:</code> zu camelCase</li>
+                    <li>Konvertiere <code>-</code> zu camelCase</li>
+                    <li>Konvertiere <code>_</code> zu camelCase</li>
+                </ol>
+                <pre><code class="javascript">app.directive('fooBar', ...)</code></pre>
+            <pre><code>
+                &lt;foo-bar/>
+                &lt;foo:bar/>
+                &lt;foo_bar/>
+                <div x-foo-bar=""></div>
+                <div data-foo-bar=""></div>
+                <div foo-bar=""></div>
+            </code></pre>
+            </section>
+            <section>
+                <h3>Arten von Direktiven</h3>
+                <ol>
+                    <li>Tag <pre><code>&lt;my-user/&gt;</code></pre></li>
+                    <li>Attribut <pre><code>&lt;div my-user='user'&gt;</code></pre></li>
+                    <li>CSS Klasse <pre><code>&lt;div class='my-user: user;'&gt;</code></pre></li>
+                    <li>Kommentar <pre><code>&lt;!-- directive: my-user user --&gt;</code></pre></li>
+                </ol>
+            </section>
+            <section>
+                <h3>Direktiven Beschreiben</h3>
+                <pre><code class="javascript">
+                    var module = angular.module('Example', []);
+                    module.directive('directiveName', function() {
+                      return {
+                        // describe directive
+                        link: linkFunction,
+                        restrict: 'E'
+                        //...etc
+                      };
+                    });
+                </code></pre>
+            </section>
+            <section>
+                <h3><code>restrict</code></h3>
+                <p>Wo kann die directive verwendet werden</p>
+                <p>String aus den Zeichen:</p>
+                <ul>
+                    <li><code>'E'</code> Element</li>
+                    <li><code>'A'</code> Attribut (default)</li>
+                    <li><code>'C'</code> Klasse</li>
+                    <li><code>'M'</code> Kommentar</li>
+                </ul>
+                <pre><code class="javascript">
+                    {
+                      // snip
+                      restrict: 'EA',
+                      // ...snip
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <h3><code>link</code></h3>
+                <p>Link-Funktion</p>
+                <p>nimmt <em>nicht</em> am DI teil</p>
+                <pre><code class="javascript">
+                    link: function (scope, element, attribute) {
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <h3><code>template</code> / <code>templateUrl</code></h3>
+                <p>neue DOM Elemente in die Direktiven einfügen</p>
+                <p>entweder inline oder über Angulars <em>templateCache</em></p>
+                <pre><code class="javascript">
+                    app.directive('placeholder', function () {
+                      return {
+                        restrict: 'E',
+                        template: '<div>real deal!</div>'
+                      };
+                    });
+                </code></pre>
+            </section>
+            <section>
+                <h3><code>replace</code></h3>
+                <p>neues template in DOM Element einfügen oder ersetzen</p>
+                <p>default ist <em>false</em></p>
+                <pre><code class="javascript">
+                    app.directive('placeholder', function () {
+                      return {
+                        restrict: 'E',
+                        replace: true,
+                        template: '<div>real deal!</div>'
+                      };
+                    });
+                </code></pre>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h3>Noise Direktive</h3>
+                <ul>
+                    <li>halbwegs sinnvolles Beispiel</li>
+                    <li>3rd Party Bibliothek <a href="http://howlerjs.com">Howler.js</a> einbinden</li>
+                    <li>Direktive, die auf click einen Sound abspielt</li>
+                </ul>
+            </section>
+            <section>
+                <h3><a href="http://howlerjs.com">Howler.js</a> Minimal Beispiel</h3>
+                <pre><code class="javascript">
+                    var sound = new Howl({
+                      urls: ['path/to/sound.mp3']
+                    });
+                    sound.play();
+                </code></pre>
+            </section>
+            <section>
+                <h3>Direktiven &amp; Tests</h3>
+                <p>Wir brauchen:</p>
+                <ol>
+                    <li class="fragment fade-in">Test Boilerplate – <a href="http://pivotal.github.io/jasmine/">Jasmine</a></li>
+                    <li class="fragment fade-in">Test Runner – <a
+                            href="http://karma-runner.github.io/0.12/index.html">Karma</a></li>
+                    <li class="fragment fade-in">Angular Boilerplate – <a
+                            href="http://code.angularjs.org/1.2.15/angular-mocks.js">Angular Mocks</a></li>
+                </ol>
+            </section>
+            <section>
+                <h3>Demo: <code>sound</code></h3>
+            </section>
+            <section>
+                <h3>Noise Direktive</h3>
+                <pre><code class="javascript">
+                    app.directive('noise', function($window) {
+                      return {
+                        link: function (scope, element, attrs) {
+                          var sound = new $window.Howl({
+                            urls: [attrs.noise]
+                          });
+                          element.on('click', function() {sound.play();});
+                        }
+                      };
+                    })
+                </code></pre>
+            </section>
+            <section>
+                <h3>Direktiventest Boilerplate</h3>
+                <pre><code class="javascript">
+    describe('MyDirective Test', function () {
+        var scope, element;
+        // Load module
+        beforeEach(module('MyModule'));
+        // prepare directive
+        beforeEach(inject(function($compile, $rootScope) {
+            scope = $rootScope.$new();
+            element = angular.element('<div my-directive="test">Test</div>');
+            $compile(element)(scope);
+        }));
+        // actual tests
+        it('should do something', function() {
+            expect(something).toHaveHappened();
+        });
+    });
+                </code></pre>
+            </section>
+        </section>
     </div>
     <footer>
         Moritz – <a href="https://twitter.com/mo_gr" target="_blank">@mo_gr</a> - #bedcon
     </footer>
+</div>
 
     <script src="lib/js/head.min.js"></script>
     <script src="js/reveal.min.js"></script>
@@ -57,9 +381,11 @@
             transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
 
             dependencies: [
-                { src: 'plugin/highlight/highlight.js', async: true, callback: function () {
-                    hljs.initHighlightingOnLoad();
-                } },
+                {
+                    src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                      hljs.initHighlightingOnLoad();
+                    }
+                }
             ]
         });
 

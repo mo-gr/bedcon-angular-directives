@@ -27,6 +27,16 @@ ul,ol
 .text-shadow
   @include text-shadow
 
-.reveal .slides
-  h1, h2, h3
-    @include text-shadow
+.reveal
+  .slides
+    h1, h2, h3
+      @include text-shadow
+
+  .tagline
+    font-family: "Menlo", sans-serif
+    font-size: 0.9em
+    line-height: 1.5em
+    margin-bottom: 2em
+
+  .whiteBox
+    background: white

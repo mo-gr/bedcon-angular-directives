@@ -27,3 +27,10 @@ ul, ol {
 
 .reveal .slides h1, .reveal .slides h2, .reveal .slides h3 {
   text-shadow: 2px 2px 5px #131313; }
+.reveal .tagline {
+  font-family: "Menlo", sans-serif;
+  font-size: 0.9em;
+  line-height: 1.5em;
+  margin-bottom: 2em; }
+.reveal .whiteBox {
+  background: white; }
