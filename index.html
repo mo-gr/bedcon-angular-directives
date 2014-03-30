@@ -359,6 +359,205 @@
     });
                 </code></pre>
             </section>
+            <section>
+                <h3>3rd Party Integration – Rückrichtung</h3>
+                <ul>
+                    <li>Callbacks und Eventlistener</li>
+                    <li>Angulars Digest Cycle muss getriggert werden</li>
+                    <li><code>scope.$apply()</code> ist der Schlüssel</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Noise Direktive II.</h3>
+                <pre><code class="javascript">
+    app.directive('noise', function($window) {
+        return {
+            link: function (scope, element, attrs) {
+                var sound = new $window.Howl({
+                    urls: [attrs.noise],
+                    onplay: function () {
+                        scope.$apply(function () {
+                            scope.playing = attrs.noise;
+                        });
+                    }
+                });
+                element.on('click', function() {sound.play();});
+            }
+        };
+    })
+                </code></pre>
+            </section>
+            <section>
+                <h3>Typische Gefahr</h3>
+                <ul>
+                    <li>allmächtige Link-Funktion</li>
+                    <li>schwer zu Testen</li>
+                    <li><em>code smell</em></li>
+                </ul>
+            </section>
+            <section>
+                <h3><code>controller</code></h3>
+                <ul>
+                    <li>Direktiven Controlloer</li>
+                    <li>inline oder via Name</li>
+                    <li>ermöglicht Services, bessere Testbarkeit etc</li>
+                </ul>
+                <pre><code class="javascript">
+    app.directive('complexDirective', function () {
+        return {
+            controller: 'complexDirectiveController',
+            link: function(scope, elem, attr, controller) {
+                controller.init(elem);
+            };
+        };
+    });
+    app.controller('complexDirectiveController',
+                   function($scope, ComplexService) {
+        // magic happens here
+    });
+                </code></pre>
+            </section>
+            <section>
+                <h3>Direktiven Kommunikation via Controller</h3>
+                <ul>
+                    <li>Direktiven können Controller von anderen Direktiven verlangen</li>
+                    <li>Klassisches Beispiel: cross field validation</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Demo: <code>cross-field</code></h3>
+            </section>
+            <section>
+                <h3><code>require</code></h3>
+                <ul>
+                    <li>Name oder Array von Namen anderer Direktiven</li>
+                    <li>wird als 4. Parameter an die Link Funktion gegeben</li>
+                    <li>Prefix '?' wirft keinen Fehler, wenn andere Direktive nicht vorhanden</li>
+                    <li>Prefix '^' sucht im DOM weiter oben</li>
+                </ul>
+                <pre><code class="javascript">
+app.directive('fooBar', function() {
+    return {
+        controller: 'fooBarController',
+        require: ['reqDir', '?^optDir', 'fooBar'],
+        link: function(s, e, a, controllers) {
+            var reqDir = controllers[0];
+            var ownController = controllers[2];
+            if (controllers[1]) controllers[1].interact(reqDir);
+
+        };
+    }
+});
+                </code></pre>
+            </section>
+            <section>
+                <h3><code>transclude</code></h3>
+                <ul>
+                    <li>ermöglicht das Einbinden von Direktiven Inhalt in Templates</li>
+                    <li>klassisches Beispiel: MessageBox</li>
+                    <li>assoziiert scope</li>
+                </ul>
+                <pre><code class="javascript">
+app.directive('messageBox', function() {
+    return {
+        transclude: true,
+        template: '<div class="fancyMessageBox">' +
+            '<h1>Alert!</h1>' +
+            '<div class="content" ng-transclude></div>' +
+            '</div>'
+    };
+});
+                </code></pre>
+                <pre><code><messabe-box>Something went wrong: {{message}}</messabe-box></code></pre>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h3>scope?</h3>
+                <ul>
+                    <li class="fragment fade-in">Kleber zwischen View &amp; Controller</li>
+                    <li class="fragment fade-in">hierarchich (prototypisch vererbt)</li>
+                    <li class="fragment fade-in">beliebter Stolperstein</li>
+                </ul>
+            </section>
+            <section>
+                <h3><code>scope</code></h3>
+                <ol>
+                    <li><code>false</code> – Direktive hat keinen eigenen Scope (<em>default</em>)</li>
+                    <li><code>true</code> – Direktive hat eigenen Child Scope</li>
+                    <li><code>{}</code> – Direktive hat eigenen, isolierten Scope</li>
+                </ol>
+            </section>
+            <section>
+                <h3>Demo: <code>drinks</code></h3>
+            </section>
+            <section>
+                <h3>isolate Scope</h3>
+                <p>ermöglicht definiertes Interface einer Direktive</p>
+                <ol>
+                    <li><code>'@'</code> – unidirektionales Mapping in den Direktiven Scope</li>
+                    <li><code>'='</code> – bidirektionales Mapping zwischen umliegendendem Scope und Direktive</li>
+                    <li><code>'&'</code> – ermöglicht <em>function calls</em> im umliegendem Scope</li>
+                </ol>
+                <img src="img/isolateScope.png" alt="Isolate Scopes"/>
+            </section>
+        </section>
+    <section>
+        <section><h3>War's das?</h3></section>
+        <section>
+            <h3>weitere erlaubte Properties</h3>
+            <ul>
+                <li class="fragment fade-in"><code>priority</code></li>
+                <li class="fragment fade-in"><code>terminal</code></li>
+                <li class="fragment fade-in"><code>compile</code></li>
+            </ul>
+        </section>
+        <section>
+            <h3>Direktiven Deklarieren - Komplett</h3>
+        <pre><code class="javascript">
+    app.directive('example', function(MagicService) {
+        // lazy one-time init
+        return {
+            restrict: 'EA',
+            link: function(scope, elem, attrs, controllers) {
+                // called per usage
+            },
+            // or compile: compileFn,
+            templateUrl: 'neatTemplate.html',
+            ,// or template: '...'
+            replace: true,
+            transclude: true,
+            scope: {foo:'='},
+            controller: 'aController',
+            require: ['?^other', 'example']
+            priority: 100,
+            terminal: false
+        };
+    });
+        </code></pre>
+        </section>
+    </section>
+        <section>
+            <section>
+                <h3>Take Home Message</h3>
+                <ul>
+                    <li>Direktiven sind ein guter Weg zu wart- und testbaren Anwendungen.</li>
+                    <li>Direktiven ermöglichen deklaratives Markup.</li>
+                    <li>Der Einstieg in eigene Direktiven ist simpel.</li>
+                    <li>Die mögliche Flexibilität impliziert gewisse Komplexität.</li>
+                </ul>
+            </section>
+            <section>
+                <h3>Vielen Dank!</h3>
+            </section>
+            <section>
+                <h3>Fragen?</h3>
+                <p><a href="" target="_blank">Slides auf GitHub</a></p>
+                <p>Get in touch!</p>
+                <p><a href="https://twitter.com/mo_gr" target="_blank">@mo_gr</a></p>
+                <p><a href="mailto:mo@notadomain.com">mo@notadomain.com</a></p>
+                <p><a href="http://moritz.grauel.is/awesome" target="_blank">http://moritz.grauel.is/awesome</a></p>
+            </section>
         </section>
     </div>
     <footer>
