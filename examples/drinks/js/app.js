@@ -2,7 +2,7 @@
     'use strict';
     var app = angular.module('DrinksMachine', []);
 
-    app.controller('SelectionController', function ($scope) {
+    app.controller('SelectionController', function ($scope, $log) {
         var model = {
             selectedDrink: ''
         };
@@ -11,19 +11,12 @@
             model.selectedDrink = selection;
         };
 
-        $scope.model = model;
-    });
-
-    app.directive('moNoise', function () {
-        return {
-            link: function (scope, element, attrs) {
-                var sound = new Howl({
-                    urls: [attrs.moNoise]
-
-                });
-                element.on('click', function () {sound.play();});
-            }
+        $scope.eatCoins = function (drink) {
+            model.selectedDrink = '';
+            $log.info('Rumble, but keep: ' + drink);
         };
+
+        $scope.model = model;
     });
 
     app.directive('drinkSelect', function () {
@@ -33,7 +26,11 @@
             replace: true,
             scope: {
                 drink: '@',
-                selection: '='
+                selection: '=',
+                onChoice: '&'
+            },
+            link: function (scope, elem, attrs) {
+                // scope.drink = attrs.drink; // nope
             }
         }
     });

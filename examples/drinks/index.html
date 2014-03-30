@@ -10,24 +10,29 @@
     <h1>Fancy Drinks Machine</h1>
 
     <div ng-controller="SelectionController">
-        <div>
-            <div class="button" ng-class="{selected: model.selectedDrink == 'Coffee'}"
-                 mo-noise="crash.mp3" ng-click="selectDrink('Coffee')">Coffee</div>
+        <div class="button"
+             ng-class="{selected: model.selectedDrink == 'Coffee'}"
+             ng-click="eatCoins('Coffee')">
+            Coffee
         </div>
-        <div>
-            <div class="button" ng-class="{selected: model.selectedDrink == 'Grog'}"
-                 mo-noise="crash.mp3" ng-click="selectDrink('Grog')">Grog</div>
-        </div>
-        <div>
-            <drink-select drink="Grog Lite" selection="model.selectedDrink"></drink-select>
-        </div>
+
+        <drink-select drink="Grog" selection="model.selectedDrink" on-choice="selectDrink(drink)"></drink-select>
+
+        <drink-select drink="Grog Lite" selection="model.selectedDrink" on-choice="selectDrink(drink)"></drink-select>
+
+        <label for="customDrink">Custom Drink</label>
+        <input id="customDrink" type="text" ng-model="customDrink" ng-init="customDrink = 'Grog Zero'"/>
+        <drink-select drink="{{customDrink || '?'}}" selection="model.selectedDrink"
+                      on-choice="eatCoins(drink)"></drink-select>
     </div>
     <script type="text/ng-template" id="drink-select.html">
-        <div class="button" ng-class="{selected: selection == drink}"
-             mo-noise="crash.mp3" ng-click="selection = drink">{{drink}}</div>
+        <div class="button"
+             ng-class="{selected: selection == drink}"
+             ng-click="onChoice({drink:drink})">
+            {{drink}}
+        </div>
     </script>
 </div>
-<script src="js/howler.js"></script>
 <script src="js/angular.js"></script>
 <script src="js/app.js"></script>
 </body>
