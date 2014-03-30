@@ -20,17 +20,6 @@
 
     app.directive('sameAs', function () {
         return {
-            require: 'ngModel',
-            link: function (scope, elem, attrs, ngModel) {
-                var isSame = function (value) {
-                    var expected = scope.$eval(attrs.sameAs);
-                    var same = expected === value;
-                    ngModel.$setValidity('sameAs', same);
-                };
-                ngModel.$parsers.push(isSame);
-                scope.$watch(attrs.sameAs, function () {
-                    ngModel.$setViewValue(ngModel.$viewValue);
-                })
             }
         }
     });

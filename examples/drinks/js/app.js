@@ -19,19 +19,4 @@
         $scope.model = model;
     });
 
-    app.directive('drinkSelect', function () {
-        return {
-            restrict: 'E',
-            templateUrl: 'drink-select.html',
-            replace: true,
-            scope: {
-                drink: '@',
-                selection: '=',
-                onChoice: '&'
-            },
-            link: function (scope, elem, attrs) {
-                // scope.drink = attrs.drink; // nope
-            }
-        }
-    });
 }());
