@@ -76,8 +76,8 @@
                     <li>Template System</li>
                 </ul>
             </section>
-            <section><img src="img/curves.jpg" alt="learning curves"></section>
-            <section><img src="img/feelings_about_angularjs_over_time.png" alt="angularjs learning curve"></section>
+            <!--<section><img src="img/curves.jpg" alt="learning curves"></section>-->
+            <!--<section><img src="img/feelings_about_angularjs_over_time.png" alt="angularjs learning curve"></section>-->
             <section>
                 <h3>Demo: <code>hello-angular</code></h3>
             </section>
@@ -311,6 +311,9 @@
                 </code></pre>
             </section>
             <section>
+                <h3>TDD</h3>
+            </section>
+            <section>
                 <h3>Direktiven &amp; Tests</h3>
                 <p>Wir brauchen:</p>
                 <ol>
@@ -342,21 +345,21 @@
             <section>
                 <h3>Direktiventest Boilerplate</h3>
                 <pre><code class="javascript">
-    describe('MyDirective Test', function () {
-        var scope, element;
-        // Load module
-        beforeEach(module('MyModule'));
-        // prepare directive
-        beforeEach(inject(function($compile, $rootScope) {
-            scope = $rootScope.$new();
-            element = angular.element('<div my-directive="test">Test</div>');
-            $compile(element)(scope);
-        }));
-        // actual tests
-        it('should do something', function() {
-            expect(something).toHaveHappened();
-        });
+describe('MyDirective Test', function () {
+    var scope, element;
+    // Load module
+    beforeEach(module('MyModule'));
+    // prepare directive
+    beforeEach(inject(function($compile, $rootScope) {
+        scope = $rootScope.$new();
+        element = angular.element('<div my-directive="test">Test</div>');
+        $compile(element)(scope);
+    }));
+    // actual tests
+    it('should do something', function() {
+        expect(something).toHaveHappened();
     });
+});
                 </code></pre>
             </section>
             <section>
