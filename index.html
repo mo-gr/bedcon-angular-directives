@@ -89,13 +89,17 @@
                 <p class="fragment fade-in"><code>ng-app, ng-controller, ng-click, ...</code></p>
                 <p class="fragment fade-in">Nicht nur Attribute, auch Elemente</p>
             </section>
-            <section><h3>Direktiven sind marker im DOM</h3></section>
+            <section>
+                <h3>Direktiven sind Marker im DOM</h3>
+                <h3>für JavaScript execution</h3>
+            </section>
             <section>
                 <h3>jQuery vs Direktiven</h3>
-                <pre class="fragment fade-int"><code class="javascript">$("#content form.form ul ~ input + div").on("click", fmlHandler);</code></pre>
-                <pre class="fragment fade-int"><code><div ng-click="fml()">You can't touch this!</div></code></pre>
-                <pre class="fragment fade-int"><code><div fml="">You can't touch this!</div></code></pre>
-                <pre class="fragment fade-int"><code><fml>You can't touch this!</fml></code></pre>
+                <pre class="fragment fade-in"><code class="javascript">$("#content form.form ul ~ input + div").on("click", fmlHandler);</code></pre>
+                <p class="fragment fade-in">vs.</p>
+                <pre class="fragment fade-in"><code><div ng-click="fml()">You can't touch this!</div></code></pre>
+                <pre class="fragment fade-in"><code><div fml="">You can't touch this!</div></code></pre>
+                <pre class="fragment fade-in"><code><fml>You can't touch this!</fml></code></pre>
             </section>
             <section>
                 <h3>Eigene Direktiven</h3>
@@ -105,16 +109,6 @@
             </section>
         </section>
         <section>
-            <section>
-                <h3>Eigene Direktiven: <code>linkFunction</code></h3>
-                <pre><code class="javascript">
-                {
-                    link: function (scope, element, attributes) {
-                      // element is jqLite/jQuery wrapped
-                      // code to run on/with that element
-                    }
-                }</code></pre>
-            </section>
             <!--<section>-->
                 <!--<h3>jQuery vs AngularJS</h3>-->
                 <!--<ul>-->
@@ -226,15 +220,26 @@
             <section>
                 <h3>Direktiven Beschreiben</h3>
                 <pre><code class="javascript">
-                    var module = angular.module('Example', []);
-                    module.directive('directiveName', function() {
-                      return {
-                        // describe directive
-                        link: linkFunction,
-                        restrict: 'E'
-                        //...etc
-                      };
-                    });
+            var module = angular.module('Example', []);
+            module.directive('directiveName', function() {
+              return {
+                // describe directive
+                link: linkFunction,
+                restrict: 'EA'
+                //...etc
+              };
+            });
+                </code></pre>
+            </section>
+            <section>
+                <h3><code>link</code></h3>
+                <p>Link-Funktion</p>
+                <p>nimmt <em>nicht</em> am DI teil</p>
+                <pre><code class="javascript">
+            link: function (scope, element, attribute) {
+                // element is jqLite/jQuery wrapped
+                // code to run on/with that element
+            }
                 </code></pre>
             </section>
             <section>
@@ -248,33 +253,25 @@
                     <li><code>'M'</code> Kommentar</li>
                 </ul>
                 <pre><code class="javascript">
-                    {
-                      // snip
-                      restrict: 'EA',
-                      // ...snip
-                    }
+            {
+              // snip
+              restrict: 'EA',
+              // ...snip
+            }
                 </code></pre>
             </section>
-            <section>
-                <h3><code>link</code></h3>
-                <p>Link-Funktion</p>
-                <p>nimmt <em>nicht</em> am DI teil</p>
-                <pre><code class="javascript">
-                    link: function (scope, element, attribute) {
-                    }
-                </code></pre>
-            </section>
+
             <section>
                 <h3><code>template</code> / <code>templateUrl</code></h3>
                 <p>neue DOM Elemente in die Direktiven einfügen</p>
                 <p>entweder inline oder über Angulars <em>templateCache</em></p>
                 <pre><code class="javascript">
-                    app.directive('placeholder', function () {
-                      return {
-                        restrict: 'E',
-                        template: '<div>real deal!</div>'
-                      };
-                    });
+            app.directive('placeholder', function () {
+              return {
+                restrict: 'E',
+                template: '<div>real deal!</div>'
+              };
+            });
                 </code></pre>
             </section>
             <section>
@@ -282,13 +279,13 @@
                 <p>neues template in DOM Element einfügen oder ersetzen</p>
                 <p>default ist <em>false</em></p>
                 <pre><code class="javascript">
-                    app.directive('placeholder', function () {
-                      return {
-                        restrict: 'E',
-                        replace: true,
-                        template: '<div>real deal!</div>'
-                      };
-                    });
+            app.directive('placeholder', function () {
+              return {
+                restrict: 'E',
+                replace: true,
+                template: '<div>real deal!</div>'
+              };
+            });
                 </code></pre>
             </section>
         </section>
@@ -330,16 +327,16 @@
             <section>
                 <h3>Noise Direktive</h3>
                 <pre><code class="javascript">
-                    app.directive('noise', function($window) {
-                      return {
-                        link: function (scope, element, attrs) {
-                          var sound = new $window.Howl({
-                            urls: [attrs.noise]
-                          });
-                          element.on('click', function() {sound.play();});
-                        }
-                      };
-                    })
+            app.directive('noise', function($window) {
+              return {
+                link: function (scope, element, attrs) {
+                  var sound = new $window.Howl({
+                    urls: [attrs.noise]
+                  });
+                  element.on('click', function() {sound.play();});
+                }
+              };
+            })
                 </code></pre>
             </section>
             <section>
