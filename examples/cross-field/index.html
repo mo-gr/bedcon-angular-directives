@@ -22,13 +22,14 @@
         return {
             require: 'ngModel',
             link: function (scope, elem, attrs, ngModel) {
-                var isSame = function (value) {
+                var isSameValidator = function (value) {
                     var expected = scope.$eval(attrs.sameAs);
-                    var same = expected === value;
-                    ngModel.$setValidity('sameAs', same);
+                    ngModel.$setValidity('sameAs', expected === value);
                 };
-                ngModel.$parsers.push(isSame);
+                ngModel.$parsers.push(isSameValidator);
+
                 scope.$watch(attrs.sameAs, function () {
+                    // setting viewValue triggers validation
                     ngModel.$setViewValue(ngModel.$viewValue);
                 })
             }
