@@ -1,0 +1,3 @@
+describe('Noise Directive', function () {
+
+});
